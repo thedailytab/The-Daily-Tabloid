@@ -1,6 +1,5 @@
-name: Update The Daily Tabloid
-
-on:
+# hello
+scheduleduledule: Update The Daily Tabloidscheduleduledulenameuns-onenerate-and-deploychedule:
   schedule:
     - cron: '0 */6 * * *'   # Every 6 hours (you can change to more/less frequent)
   workflow_dispatch:        # Allows manual trigger
