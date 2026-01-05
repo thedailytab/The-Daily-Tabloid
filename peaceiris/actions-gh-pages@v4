@@ -2,39 +2,36 @@ name: Update The Daily Tabloid
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Runs every 6 hours — change if you want more/less frequent
-  workflow_dispatch:       # Allows manual run from GitHub UI
+    - cron: '0 */6 * * *'  # Robot wakes up every 6 hours
+  workflow_dispatch:       # You can wake it manually
 
 permissions:
-  contents: write         # Needed to push changes
+  contents: write
 
 jobs:
-  generate-and-deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Get the box ready
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Get Python ready
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
+      - name: Get the requests toy
+        run: pip install requests
 
-      - name: Generate site with Groq
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      - name: Make the funny newspaper
         run: python generate.py
 
-      - name: Deploy to GitHub Pages
+      - name: Put the newspaper on the internet
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .            # Deploys everything in root (index.html + articles folder)
+          publish_dir: .  # Uses everything your script makes
+          force_orphan: true          publish_dir: .            # Deploys everything in root (index.html + articles folder)
           force_orphan: true        # Keeps history clean
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
