@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Messages</title>
+<style>
+* {margin: 0; padding: 0; box-sizing: border-box;}
+body {font-family: Georgia, serif; background: #f5f5f5; padding: 20px;}
+.login-container {max-width: 400px; margin: 100px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px;}
+.admin-container {max-width: 1000px; margin: 40px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: none;}
+h1 {color: #c00; margin-bottom: 30px;}
+h2 {color: #c00; margin-bottom: 20px;}
+.login-form input {width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; font-size: 1em;}
+.login-form button {width: 100%; background: #c00; color: white; padding: 15px; border: none; border-radius: 4px; font-size: 1.1em; cursor: pointer; font-weight: bold;}
+.login-form button:hover {background: #900;}
+.error {color: #c00; margin-top: 10px; display: none;}
+.message-card {background: #f9f9f9; border-left: 4px solid #c00; padding: 20px; margin-bottom: 20px; border-radius: 4px;}
+.message-header {display: flex; justify-content: space-between; margin-bottom: 10px; color: #666; font-size: 0.9em;}
+.message-name {font-weight: bold; color: #333; font-size: 1.1em;}
+.message-text {margin-top: 15px; line-height: 1.6;}
+.delete-btn {background: #c00; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 0.9em;}
+.delete-btn:hover {background: #900;}
+.logout-btn {background: #666; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; float: right;}
+.logout-btn:hover {background: #444;}
+.no-messages {text-align: center; color: #666; padding: 40px;}
+</style>
+</head>
+<body>
+<div class="login-container" id="loginContainer">
+<h1>Admin Login</h1>
+<form class="login-form" id="loginForm">
+<input type="password" id="password" placeholder="Enter password" required>
+<button type="submit">Login</button>
+<div class="error" id="loginError">Incorrect password</div>
+</form>
+</div>
+
+<div class="admin-container" id="adminContainer">
+<button class="logout-btn" onclick="logout()">Logout</button>
+<h1>Contact Messages</h1>
+<div id="messagesList"></div>
+</div>
+
+<script src="admin-config.js"></script>
+<script>
+const MESSAGES_KEY = 'tabloid_messages';
+
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function checkAuth() {
+    return sessionStorage.getItem('admin_auth') === 'true';
+}
+
+async function login(password) {
+    const hashedInput = await hashPassword(password);
+    if (hashedInput === ADMIN_PASSWORD_HASH) {
+        sessionStorage.setItem('admin_auth', 'true');
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('adminContainer').style.display = 'block';
+        loadMessages();
+        return true;
+    }
+    return false;
+}
+
+function logout() {
+    sessionStorage.removeItem('admin_auth');
+    document.getElementById('loginContainer').style.display = 'block';
+    document.getElementById('adminContainer').style.display = 'none';
+    document.getElementById('password').value = '';
+}
+
+function loadMessages() {
+    const messages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+    const container = document.getElementById('messagesList');
+    
+    if (messages.length === 0) {
+        container.innerHTML = '<div class="no-messages">No messages yet</div>';
+        return;
+    }
+    
+    container.innerHTML = messages.map(msg => `
+        <div class="message-card" id="msg-${msg.id}">
+            <div class="message-header">
+                <span class="message-name">${msg.name} (${msg.email})</span>
+                <span>${msg.date}</span>
+            </div>
+            <div class="message-text">${msg.message}</div>
+            <button class="delete-btn" onclick="deleteMessage(${msg.id})">Delete</button>
+        </div>
+    `).join('');
+}
+
+function deleteMessage(id) {
+    if (confirm('Delete this message?')) {
+        let messages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+        messages = messages.filter(msg => msg.id !== id);
+        localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
+        loadMessages();
+    }
+}
+
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    const success = await login(password);
+    if (!success) {
+        document.getElementById('loginError').style.display = 'block';
+    }
+});
+
+if (checkAuth()) {
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('adminContainer').style.display = 'block';
+    loadMessages();
+}
+</script>
+</body>
+</html>

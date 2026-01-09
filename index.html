@@ -6,13 +6,20 @@
 <title>The Tabloid Times - Shocking News Daily</title>
 <style>
 * {margin: 0; padding: 0; box-sizing: border-box;}
-body {font-family: Georgia, serif; background: #f5f5f5; padding: 20px;}
-.container {max-width: 1000px; margin: 0 auto;}
+body {font-family: Georgia, serif; background: #f5f5f5; padding: 0;}
+nav {background: #333; padding: 15px 0;}
+nav .container {max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}
+nav a {color: white; text-decoration: none; padding: 10px 20px; font-size: 0.9em;}
+nav a:hover {background: #555;}
+.logo {font-weight: bold; font-size: 1.2em; color: #c00;}
+.container {max-width: 1000px; margin: 0 auto; padding: 20px;}
 header {background: #c00; color: white; padding: 40px 20px; text-align: center; margin-bottom: 30px;}
 h1 {font-size: 3.5em; text-transform: uppercase; letter-spacing: 2px; text-shadow: 3px 3px 0 #900;}
 .tagline {font-size: 1.2em; margin-top: 10px; font-style: italic;}
 .updated {text-align: center; color: #666; margin-bottom: 30px;}
-.story {background: white; padding: 30px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+.story {background: white; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden;}
+.story img {width: 100%; height: 300px; object-fit: cover; display: block;}
+.story-content {padding: 30px;}
 .story h2 {color: #c00; font-size: 2em; margin-bottom: 10px;}
 .story a {color: #c00; text-decoration: none;}
 .story a:hover {text-decoration: underline;}
@@ -21,227 +28,506 @@ footer {text-align: center; padding: 40px 20px; color: #666; border-top: 3px sol
 </style>
 </head>
 <body>
+<nav>
 <div class="container">
+<a href="index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</div>
+</div>
+</nav>
 <header>
 <h1>The Tabloid Times</h1>
 <div class="tagline">SHOCKING NEWS • EXCLUSIVE STORIES • UNBELIEVABLE FACTS</div>
 </header>
-<div class="updated">Last Updated: January 09, 2026 at 07:03 PM</div>
+<div class="container">
+<div class="updated">Last Updated: January 09, 2026 at 05:00 PM CST</div>
 
         <div class="story">
-            <h2><a href="articles/former-glp-1-users-regain-lost-weight-after-about-.html">FORMER GLP-1 USERS REGAIN LOST WEIGHT AFTER ABOUT 18 MONTHS, STUDY SAYS - THE WASHINGTON POST - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 07:03 PM</p>
+            <a href="articles/buccaneers-make-changes-to-2026-coaching-staff-tam.html">
+                <img src="https://source.unsplash.com/1200x600/?Buccaneers+Make+Changes,news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/buccaneers-make-changes-to-2026-coaching-staff-tam.html">BUCCANEERS MAKE CHANGES TO 2026 COACHING STAFF - TAMPA BAY BUCCANEERS - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 05:00 PM CST</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/philippines-evacuates-3-000-people-after-activity-.html">PHILIPPINES EVACUATES 3,000 PEOPLE AFTER ACTIVITY INCREASES AT MAYON VOLCANO - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 07:03 PM</p>
+            <a href="articles/french-farmers-force-their-way-through-paris-with-.html">
+                <img src="https://source.unsplash.com/1200x600/?French+farmers+force,news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 05:00 PM CST</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 07:03 PM</p>
+            <a href="articles/star-tribune-identifies-ice-agent-who-fatally-shot.html">
+                <img src="https://source.unsplash.com/1200x600/?Star+Tribune+identifies,news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/star-tribune-identifies-ice-agent-who-fatally-shot.html">STAR TRIBUNE IDENTIFIES ICE AGENT WHO FATALLY SHOT WOMAN IN MINNEAPOLIS - STAR TRIBUNE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 05:00 PM CST</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 07:03 PM</p>
+            <a href="articles/cloud-9-celestial-object-could-solve-dark-matter-m.html">
+                <img src="https://source.unsplash.com/1200x600/?‘Cloud-9’+celestial+object,news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/cloud-9-celestial-object-could-solve-dark-matter-m.html">‘CLOUD-9’ CELESTIAL OBJECT COULD SOLVE DARK MATTER MYSTERY - CNN - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 05:00 PM CST</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/saudi-backed-forces-move-to-capture-key-yemeni-cit.html">SAUDI-BACKED FORCES MOVE TO CAPTURE KEY YEMENI CITY AS CRISIS WITH UAE DEEPENS - CNN - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 07:03 PM</p>
+            <a href="articles/stock-market-today-dow-gains-steam-defense-stocks-.html">
+                <img src="https://source.unsplash.com/1200x600/?Stock+Market+Today:,news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/stock-market-today-dow-gains-steam-defense-stocks-.html">STOCK MARKET TODAY: DOW GAINS STEAM; DEFENSE STOCKS RALLY; ALPHABET TOPS APPLE IN MARKET CAP (LIVE COVERAGE) - INVESTOR'S BUSINESS DAILY - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 05:00 PM CST</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 07:03 PM</p>
+            <a href="articles/dga-awards-movie-nominees-anderson-coogler-del-tor.html">
+                <img src="https://source.unsplash.com/1200x600/?DGA+Awards+Movie,news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/dga-awards-movie-nominees-anderson-coogler-del-tor.html">DGA AWARDS MOVIE NOMINEES: ANDERSON, COOGLER, DEL TORO, SAFDIE AND ZHAO - DEADLINE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 05:00 PM CST</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:48 PM</p>
+            <a href="articles/former-glp-1-users-regain-lost-weight-after-about-.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/former-glp-1-users-regain-lost-weight-after-about-.html">FORMER GLP-1 USERS REGAIN LOST WEIGHT AFTER ABOUT 18 MONTHS, STUDY SAYS - THE WASHINGTON POST - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 07:03 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:48 PM</p>
+            <a href="articles/philippines-evacuates-3-000-people-after-activity-.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/philippines-evacuates-3-000-people-after-activity-.html">PHILIPPINES EVACUATES 3,000 PEOPLE AFTER ACTIVITY INCREASES AT MAYON VOLCANO - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 07:03 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:48 PM</p>
+            <a href="articles/french-farmers-force-their-way-through-paris-with-.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 07:03 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:48 PM</p>
+            <a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 07:03 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:48 PM</p>
+            <a href="articles/saudi-backed-forces-move-to-capture-key-yemeni-cit.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/saudi-backed-forces-move-to-capture-key-yemeni-cit.html">SAUDI-BACKED FORCES MOVE TO CAPTURE KEY YEMENI CITY AS CRISIS WITH UAE DEEPENS - CNN - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 07:03 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:48 PM</p>
+            <a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 07:03 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:40 PM</p>
+            <a href="articles/french-farmers-force-their-way-through-paris-with-.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:48 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:40 PM</p>
+            <a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:48 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:40 PM</p>
+            <a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:48 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:40 PM</p>
+            <a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:48 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:40 PM</p>
+            <a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:48 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 03:40 PM</p>
+            <a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:48 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:24 PM</p>
+            <a href="articles/french-farmers-force-their-way-through-paris-with-.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:40 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:24 PM</p>
+            <a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:40 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:24 PM</p>
+            <a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:40 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:24 PM</p>
+            <a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:40 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:24 PM</p>
+            <a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:40 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:24 PM</p>
+            <a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 03:40 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:23 PM</p>
+            <a href="articles/french-farmers-force-their-way-through-paris-with-.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:24 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:23 PM</p>
+            <a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:24 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:23 PM</p>
+            <a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:24 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:23 PM</p>
+            <a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:24 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:23 PM</p>
+            <a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:24 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:23 PM</p>
+            <a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:24 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:22 PM</p>
+            <a href="articles/french-farmers-force-their-way-through-paris-with-.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:23 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:22 PM</p>
+            <a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:23 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:22 PM</p>
+            <a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:23 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:22 PM</p>
+            <a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:23 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:22 PM</p>
+            <a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:23 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:22 PM</p>
+            <a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:23 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:21 PM</p>
+            <a href="articles/french-farmers-force-their-way-through-paris-with-.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:22 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:21 PM</p>
+            <a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:22 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:21 PM</p>
+            <a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:22 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:21 PM</p>
+            <a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:22 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:21 PM</p>
+            <a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:22 PM</p>
+            </div>
         </div>
         
         <div class="story">
-            <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
-            <p class="date">January 09, 2026 at 02:21 PM</p>
+            <a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:22 PM</p>
+            </div>
         </div>
         
+        <div class="story">
+            <a href="articles/french-farmers-force-their-way-through-paris-with-.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/french-farmers-force-their-way-through-paris-with-.html">FRENCH FARMERS FORCE THEIR WAY THROUGH PARIS WITH TRACTORS TO PROTEST FREE TRADE DEAL - ABCNEWS.GO.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:21 PM</p>
+            </div>
+        </div>
+        
+        <div class="story">
+            <a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/eric-schmidt-will-massively-invest-in-private-tele.html">ERIC SCHMIDT WILL MASSIVELY INVEST IN PRIVATE TELESCOPES, INCLUDING HUBBLE REPLACEMENT - ARS TECHNICA - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:21 PM</p>
+            </div>
+        </div>
+        
+        <div class="story">
+            <a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/developer-direct-returns-january-22-watch-fable-fo.html">DEVELOPER_DIRECT RETURNS JANUARY 22: WATCH FABLE, FORZA HORIZON 6, AND BEAST OF REINCARNATION GAMEPLAY, DIRECT FROM THE STUDIOS - XBOX WIRE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:21 PM</p>
+            </div>
+        </div>
+        
+        <div class="story">
+            <a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/ces-2026-hyundai-motor-group-leverages-group-capab.html">CES 2026: HYUNDAI MOTOR GROUP LEVERAGES GROUP CAPABILITIES TO LEAD THE AI ROBOTICS INDUSTRY - HYUNDAI.COM - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:21 PM</p>
+            </div>
+        </div>
+        
+        <div class="story">
+            <a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/performance-of-premium-and-budget-tv-brands-is-clo.html">PERFORMANCE OF PREMIUM AND BUDGET TV BRANDS IS CLOSER THAN EVER - THE VERGE - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:21 PM</p>
+            </div>
+        </div>
+        
+        <div class="story">
+            <a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">
+                <img src="https://source.unsplash.com/800x400/?news" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/hsbc-settles-french-dividend-trade-probe-for-300mn.html">HSBC SETTLES FRENCH DIVIDEND TRADE PROBE FOR €300MN - FINANCIAL TIMES - SHOCKING EXCLUSIVE</a></h2>
+                <p class="date">January 09, 2026 at 02:21 PM</p>
+            </div>
+        </div>
+        
+</div>
 <footer>
-<p>All stories are 100% real and not made up at all.</p>
+<p>All stories are 100% real and not made up at all. Okay, okay, it's AI generated satire.</p>
 <p>© 2026 The Tabloid Times</p>
 </footer>
-</div>
 </body>
 </html>
