@@ -25,6 +25,6 @@ Fork or clone this repo, then add your NewsAPI key:
 2. Click **Generate Tabloid Site**
 3. Click **Run workflow**
 
-Done! Your site will be live at: `https://YOUR-USERNAME.github.io/YOUR-REPO-NAME/`
+Done! Your site will be live at: `https://YOUR-REPO-NAME.github.io/The-Daily-Tabloid`
 
 ## 📁 File Structure
