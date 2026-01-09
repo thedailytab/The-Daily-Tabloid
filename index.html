@@ -1,40 +1,531 @@
+# Complete Admin Control Panel System
+
+This creates a unified admin system with a dashboard and login that works site-wide.
+
+---
+
+## FILE 1: admin.html (Complete Rewrite)
+
+Replace your entire admin.html with this:
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Tabloid Times - Shocking News Daily</title>
+<title>Admin Control Panel - The Tabloid Times</title>
 <style>
 * {margin: 0; padding: 0; box-sizing: border-box;}
 body {font-family: Georgia, serif; background: #f5f5f5; padding: 0;}
-nav {background: #333; padding: 15px 0;}
-nav .container {max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}
-nav a {color: white; text-decoration: none; padding: 10px 20px; font-size: 0.9em;}
-nav a:hover {background: #555;}
-.logo {font-weight: bold; font-size: 1.2em; color: #c00;}
-.container {max-width: 1000px; margin: 0 auto; padding: 20px;}
-header {background: #c00; color: white; padding: 40px 20px; text-align: center; margin-bottom: 30px;}
-h1 {font-size: 3.5em; text-transform: uppercase; letter-spacing: 2px; text-shadow: 3px 3px 0 #900;}
-.tagline {font-size: 1.2em; margin-top: 10px; font-style: italic;}
-.updated {text-align: center; color: #666; margin-bottom: 30px;}
-.story {background: white; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden;}
-.story img {width: 100%; height: 300px; object-fit: cover; display: block;}
-.story-content {padding: 30px;}
-.story h2 {color: #c00; font-size: 2em; margin-bottom: 10px;}
-.story a {color: #c00; text-decoration: none;}
-.story a:hover {text-decoration: underline;}
-.date {color: #666; font-size: 0.9em;}
-footer {text-align: center; padding: 40px 20px; color: #666; border-top: 3px solid #c00; margin-top: 40px;}
+
+/* Login Screen */
+.login-container {max-width: 400px; margin: 100px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px;}
+.login-container h1 {color: #c00; margin-bottom: 30px; text-align: center;}
+.login-form input {width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; font-size: 1em;}
+.login-form button {width: 100%; background: #c00; color: white; padding: 15px; border: none; border-radius: 4px; font-size: 1.1em; cursor: pointer; font-weight: bold;}
+.login-form button:hover {background: #900;}
+.error {color: #c00; margin-top: 10px; display: none; text-align: center;}
+
+/* Admin Dashboard */
+.admin-container {display: none; min-height: 100vh;}
+.admin-header {background: #333; color: white; padding: 20px;}
+.admin-header h1 {margin-bottom: 5px;}
+.admin-header .site-link {color: #c00; text-decoration: none; font-size: 0.9em;}
+.admin-header .logout-btn {float: right; background: #c00; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;}
+.admin-header .logout-btn:hover {background: #900;}
+
+.admin-content {display: flex; min-height: calc(100vh - 80px);}
+
+/* Sidebar Navigation */
+.admin-sidebar {width: 250px; background: #2c2c2c; color: white; padding: 20px 0;}
+.admin-sidebar .nav-item {padding: 15px 20px; cursor: pointer; border-left: 3px solid transparent; transition: all 0.3s;}
+.admin-sidebar .nav-item:hover {background: #3c3c3c; border-left-color: #c00;}
+.admin-sidebar .nav-item.active {background: #3c3c3c; border-left-color: #c00;}
+.admin-sidebar .nav-icon {margin-right: 10px;}
+
+/* Main Content Area */
+.admin-main {flex: 1; padding: 40px; background: white; margin: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+.admin-section {display: none;}
+.admin-section.active {display: block;}
+.admin-section h2 {color: #c00; margin-bottom: 30px; font-size: 2em;}
+
+/* Dashboard Stats */
+.stats-grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px;}
+.stat-card {background: linear-gradient(135deg, #c00 0%, #900 100%); color: white; padding: 30px; border-radius: 8px; text-align: center;}
+.stat-card .number {font-size: 3em; font-weight: bold; margin-bottom: 10px;}
+.stat-card .label {font-size: 1.1em; opacity: 0.9;}
+
+/* Messages */
+.message-card {background: #f9f9f9; border-left: 4px solid #c00; padding: 20px; margin-bottom: 20px; border-radius: 4px;}
+.message-header {display: flex; justify-content: space-between; margin-bottom: 10px; color: #666; font-size: 0.9em;}
+.message-name {font-weight: bold; color: #333; font-size: 1.1em;}
+.message-text {margin-top: 15px; line-height: 1.6;}
+.delete-btn {background: #c00; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 0.9em;}
+.delete-btn:hover {background: #900;}
+.no-messages {text-align: center; color: #666; padding: 40px;}
+
+/* About Editor */
+.editor-area {width: 100%; min-height: 300px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; font-family: Georgia, serif; font-size: 1em; line-height: 1.6;}
+.save-btn {background: #4CAF50; color: white; padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin-top: 20px;}
+.save-btn:hover {background: #45a049;}
+.success-msg {background: #4CAF50; color: white; padding: 15px; border-radius: 4px; margin-top: 20px; display: none;}
+
+/* Settings */
+.setting-group {margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px solid #ddd;}
+.setting-group h3 {color: #333; margin-bottom: 15px;}
+.setting-group label {display: block; margin-bottom: 8px; color: #666;}
+.setting-group input, .setting-group select {width: 100%; max-width: 400px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;}
+
+/* Articles Management */
+.article-list {margin-top: 20px;}
+.article-item {background: #f9f9f9; padding: 15px; margin-bottom: 15px; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;}
+.article-info h4 {color: #333; margin-bottom: 5px;}
+.article-info .date {color: #666; font-size: 0.9em;}
+.article-actions button {margin-left: 10px;}
 </style>
 </head>
 <body>
-<nav>
-<div class="container">
-<a href="index.html" class="logo">The Tabloid Times</a>
+
+<!-- Login Screen -->
+<div class="login-container" id="loginContainer">
+<h1>🔐 Admin Login</h1>
+<form class="login-form" id="loginForm">
+<input type="password" id="password" placeholder="Enter admin password" required autofocus>
+<button type="submit">Login</button>
+<div class="error" id="loginError">Incorrect password. Please try again.</div>
+</form>
+</div>
+
+<!-- Admin Dashboard -->
+<div class="admin-container" id="adminContainer">
+<div class="admin-header">
+<button class="logout-btn" onclick="logout()">Logout</button>
+<h1>The Tabloid Times - Admin Control Panel</h1>
+<a href="index.html" class="site-link" target="_blank">← View Live Site</a>
+</div>
+
+<div class="admin-content">
+<!-- Sidebar Navigation -->
+<div class="admin-sidebar">
+<div class="nav-item active" onclick="showSection('dashboard')">
+<span class="nav-icon">📊</span> Dashboard
+</div>
+<div class="nav-item" onclick="showSection('messages')">
+<span class="nav-icon">💬</span> Messages
+</div>
+<div class="nav-item" onclick="showSection('articles')">
+<span class="nav-icon">📰</span> Articles
+</div>
+<div class="nav-item" onclick="showSection('about')">
+<span class="nav-icon">✏️</span> Edit About Page
+</div>
+<div class="nav-item" onclick="showSection('settings')">
+<span class="nav-icon">⚙️</span> Settings
+</div>
+</div>
+
+<!-- Main Content -->
+<div class="admin-main">
+<!-- Dashboard Section -->
+<div class="admin-section active" id="dashboard">
+<h2>Dashboard Overview</h2>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="number" id="totalArticles">0</div>
+<div class="label">Total Articles</div>
+</div>
+<div class="stat-card">
+<div class="number" id="totalMessages">0</div>
+<div class="label">Unread Messages</div>
+</div>
+<div class="stat-card">
+<div class="number" id="todayArticles">0</div>
+<div class="label">Today's Articles</div>
+</div>
+</div>
+<div style="margin-top: 40px;">
+<h3 style="color: #333; margin-bottom: 20px;">Quick Actions</h3>
+<button class="save-btn" onclick="showSection('messages')">View Messages</button>
+<button class="save-btn" onclick="showSection('articles')" style="margin-left: 10px;">Manage Articles</button>
+<button class="save-btn" onclick="showSection('about')" style="margin-left: 10px;">Edit About Page</button>
+</div>
+</div>
+
+<!-- Messages Section -->
+<div class="admin-section" id="messages">
+<h2>Contact Messages</h2>
+<div id="messagesList"></div>
+</div>
+
+<!-- Articles Section -->
+<div class="admin-section" id="articles">
+<h2>Articles Management</h2>
+<p style="margin-bottom: 20px; color: #666;">Manage all published articles. Note: Deleting articles here only removes them from the homepage list.</p>
+<div id="articlesList"></div>
+</div>
+
+<!-- About Editor Section -->
+<div class="admin-section" id="about">
+<h2>Edit About Page</h2>
+<p style="margin-bottom: 20px; color: #666;">Edit the content that appears on the About page.</p>
+<textarea class="editor-area" id="aboutEditor"></textarea>
+<button class="save-btn" onclick="saveAboutPage()">Save Changes</button>
+<div class="success-msg" id="aboutSuccess">About page updated successfully!</div>
+</div>
+
+<!-- Settings Section -->
+<div class="admin-section" id="settings">
+<h2>Site Settings</h2>
+
+<div class="setting-group">
+<h3>Change Admin Password</h3>
+<label>New Password:</label>
+<input type="password" id="newPassword" placeholder="Enter new password">
+<button class="save-btn" onclick="changePassword()">Update Password</button>
+<div class="success-msg" id="passwordSuccess">Password updated! Note: This is stored locally.</div>
+</div>
+
+<div class="setting-group">
+<h3>Site Information</h3>
+<label>Site Title:</label>
+<input type="text" id="siteTitle" value="The Tabloid Times">
+<label style="margin-top: 15px;">Tagline:</label>
+<input type="text" id="siteTagline" value="SHOCKING NEWS • EXCLUSIVE STORIES • UNBELIEVABLE FACTS">
+<button class="save-btn" onclick="saveSiteSettings()">Save Settings</button>
+<div class="success-msg" id="settingsSuccess">Settings saved!</div>
+</div>
+
+<div class="setting-group">
+<h3>Clear All Data</h3>
+<p style="color: #666; margin-bottom: 15px;">This will clear all messages and local settings. Articles on GitHub will remain.</p>
+<button class="delete-btn" onclick="clearAllData()">Clear All Local Data</button>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script src="admin-config.js"></script>
+<script>
+const MESSAGES_KEY = 'tabloid_messages';
+const ARCHIVE_KEY = 'tabloid_archive';
+const ABOUT_KEY = 'tabloid_about';
+const SETTINGS_KEY = 'tabloid_settings';
+
+// Hash password function
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Authentication
+function checkAuth() {
+    return sessionStorage.getItem('admin_auth') === 'true';
+}
+
+async function login(password) {
+    const hashedInput = await hashPassword(password);
+    if (hashedInput === ADMIN_PASSWORD_HASH) {
+        sessionStorage.setItem('admin_auth', 'true');
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('adminContainer').style.display = 'block';
+        loadDashboard();
+        return true;
+    }
+    return false;
+}
+
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        sessionStorage.removeItem('admin_auth');
+        document.getElementById('loginContainer').style.display = 'block';
+        document.getElementById('adminContainer').style.display = 'none';
+        document.getElementById('password').value = '';
+    }
+}
+
+// Navigation
+function showSection(sectionId) {
+    // Hide all sections
+    document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    
+    // Show selected section
+    document.getElementById(sectionId).classList.add('active');
+    event.target.closest('.nav-item').classList.add('active');
+    
+    // Load section data
+    if (sectionId === 'messages') loadMessages();
+    if (sectionId === 'articles') loadArticles();
+    if (sectionId === 'about') loadAboutEditor();
+    if (sectionId === 'settings') loadSettings();
+}
+
+// Dashboard
+function loadDashboard() {
+    const messages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+    const articles = JSON.parse(localStorage.getItem(ARCHIVE_KEY) || '[]');
+    
+    document.getElementById('totalArticles').textContent = articles.length;
+    document.getElementById('totalMessages').textContent = messages.length;
+    
+    const today = new Date().toLocaleDateString();
+    const todayArticles = articles.filter(a => a.date.includes(today)).length;
+    document.getElementById('todayArticles').textContent = todayArticles;
+}
+
+// Messages Management
+function loadMessages() {
+    const messages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+    const container = document.getElementById('messagesList');
+    
+    if (messages.length === 0) {
+        container.innerHTML = '<div class="no-messages">No messages yet</div>';
+        return;
+    }
+    
+    container.innerHTML = messages.map(msg => `
+        <div class="message-card">
+            <div class="message-header">
+                <span class="message-name">${msg.name} (${msg.email})</span>
+                <span>${msg.date}</span>
+            </div>
+            <div class="message-text">${msg.message}</div>
+            <button class="delete-btn" onclick="deleteMessage(${msg.id})">Delete</button>
+        </div>
+    `).join('');
+}
+
+function deleteMessage(id) {
+    if (confirm('Delete this message?')) {
+        let messages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+        messages = messages.filter(msg => msg.id !== id);
+        localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
+        loadMessages();
+        loadDashboard();
+    }
+}
+
+// Articles Management
+function loadArticles() {
+    const articles = JSON.parse(localStorage.getItem(ARCHIVE_KEY) || '[]');
+    const container = document.getElementById('articlesList');
+    
+    if (articles.length === 0) {
+        container.innerHTML = '<div class="no-messages">No articles yet</div>';
+        return;
+    }
+    
+    container.innerHTML = articles.map((art, index) => `
+        <div class="article-item">
+            <div class="article-info">
+                <h4>${art.title}</h4>
+                <div class="date">${art.date}</div>
+            </div>
+            <div class="article-actions">
+                <button class="save-btn" onclick="window.open('articles/${art.slug}', '_blank')">View</button>
+                <button class="delete-btn" onclick="removeArticle(${index})">Remove</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function removeArticle(index) {
+    if (confirm('Remove this article from the list? (The file will remain on GitHub)')) {
+        let articles = JSON.parse(localStorage.getItem(ARCHIVE_KEY) || '[]');
+        articles.splice(index, 1);
+        localStorage.setItem(ARCHIVE_KEY, JSON.stringify(articles));
+        loadArticles();
+        loadDashboard();
+    }
+}
+
+// About Page Editor
+function loadAboutEditor() {
+    const defaultAbout = `Welcome to The Tabloid Times, where truth meets satire and reality takes a coffee break!
+
+We are an AI-powered satirical news site that transforms real headlines into gloriously absurd stories. Our mission is simple: to make you laugh, think, and question everything you read online.
+
+Every story you see here is automatically generated using cutting-edge AI technology, real news headlines, and a healthy dose of creative absurdity. Think of us as The Onion's quirky robot cousin.
+
+**Disclaimer:** Nothing here is real news. It's all satire, parody, and AI-generated silliness. Please don't quote us in your research papers.
+
+New stories are automatically generated several times a day, so check back often for your daily dose of delightful nonsense!`;
+    
+    const saved = localStorage.getItem(ABOUT_KEY) || defaultAbout;
+    document.getElementById('aboutEditor').value = saved;
+}
+
+function saveAboutPage() {
+    const content = document.getElementById('aboutEditor').value;
+    localStorage.setItem(ABOUT_KEY, content);
+    document.getElementById('aboutSuccess').style.display = 'block';
+    setTimeout(() => {
+        document.getElementById('aboutSuccess').style.display = 'none';
+    }, 3000);
+}
+
+// Settings
+function loadSettings() {
+    const settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+    document.getElementById('siteTitle').value = settings.title || 'The Tabloid Times';
+    document.getElementById('siteTagline').value = settings.tagline || 'SHOCKING NEWS • EXCLUSIVE STORIES • UNBELIEVABLE FACTS';
+}
+
+function saveSiteSettings() {
+    const settings = {
+        title: document.getElementById('siteTitle').value,
+        tagline: document.getElementById('siteTagline').value
+    };
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    document.getElementById('settingsSuccess').style.display = 'block';
+    setTimeout(() => {
+        document.getElementById('settingsSuccess').style.display = 'none';
+    }, 3000);
+}
+
+async function changePassword() {
+    const newPass = document.getElementById('newPassword').value;
+    if (!newPass) {
+        alert('Please enter a new password');
+        return;
+    }
+    const hashed = await hashPassword(newPass);
+    localStorage.setItem('admin_custom_password', hashed);
+    document.getElementById('passwordSuccess').style.display = 'block';
+    document.getElementById('newPassword').value = '';
+    setTimeout(() => {
+        document.getElementById('passwordSuccess').style.display = 'none';
+    }, 3000);
+}
+
+function clearAllData() {
+    if (confirm('Are you SURE you want to clear all local data? This cannot be undone!')) {
+        if (confirm('Really? This will delete all messages and settings!')) {
+            localStorage.removeItem(MESSAGES_KEY);
+            localStorage.removeItem(ABOUT_KEY);
+            localStorage.removeItem(SETTINGS_KEY);
+            localStorage.removeItem('admin_custom_password');
+            alert('All local data cleared!');
+            loadDashboard();
+        }
+    }
+}
+
+// Login form handler
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    const success = await login(password);
+    if (!success) {
+        document.getElementById('loginError').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('loginError').style.display = 'none';
+        }, 3000);
+    }
+});
+
+// Check if already logged in
+if (checkAuth()) {
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('adminContainer').style.display = 'block';
+    loadDashboard();
+}
+</script>
+</body>
+</html>
+```
+
+---
+
+## FILE 2: Update navigation in all pages
+
+Add this to the navigation in index.html, about.html, contact.html, and article pages:
+
+```html
 <div>
 <a href="about.html">About</a>
 <a href="contact.html">Contact</a>
+<a href="admin.html">Admin</a>
 </div>
+```
+
+---
+
+## What This Gives You:
+
+### ✅ **Unified Admin Login**
+- One password for everything
+- Session persists across admin sections
+- Secure logout
+
+### ✅ **Dashboard**
+- See total articles, messages, today's articles at a glance
+- Quick action buttons
+
+### ✅ **Messages Management**
+- View all contact form submissions
+- Delete handled messages
+- See timestamps
+
+### ✅ **Articles Management**
+- View all published articles
+- Remove from homepage (doesn't delete file)
+- Quick links to view live
+
+### ✅ **About Page Editor**
+- Edit About page content directly
+- Saves locally (syncs with site)
+
+### ✅ **Settings**
+- Change admin password
+- Edit site title and tagline
+- Clear all local data option
+
+### ✅ **Future-Ready**
+- Easy to add new admin sections
+- Expandable sidebar navigation
+- Clean, organized structure
+
+Replace your admin.html with this complete version!</div>
+
+<div class="admin-container" id="adminContainer">
+<button class="logout-btn" onclick="logout()">Logout</button>
+<h1>Contact Messages</h1>
+<div id="messagesList"></div>
+</div>
+
+<script src="admin-config.js"></script>
+<script>
+const MESSAGES_KEY = 'tabloid_messages';
+
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function checkAuth() {
+    return sessionStorage.getItem('admin_auth') === 'true';
+}
+
+async function login(password) {
+    const hashedInput = await hashPassword(password);
+    if (hashedInput === ADMIN_PASSWORD_HASH) {
+        sessionStorage.setItem('admin_auth', 'true');
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('adminContainer').style.display = 'block';
+        loadMessages();
+        return true;
+    }
+    re</div>
 </div>
 </nav>
 <header>
