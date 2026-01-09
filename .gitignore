@@ -1,13 +1,12 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
-*.py[codz]
+*.py[cod]
 *$py.class
-
-# C extensions
 *.so
-
-# Distribution / packaging
 .Python
+env/
+venv/
+ENV/
 build/
 develop-eggs/
 dist/
@@ -20,21 +19,38 @@ parts/
 sdist/
 var/
 wheels/
-share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+# Environment variables (if using .env file)
+.env
+.env.local
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+temp/
+
+# Don't ignore these generated files - they're part of the site!
+# index.html
+# archive.json
+# articles/pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 htmlcov/
