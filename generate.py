@@ -6,7 +6,7 @@ import re
 import urllib.parse
 import sys
 
-NEWS_API_KEY = os.environ.get("NEWS_API_KEY", "d26a1d4af82d416d955b4237adae75f6")
+NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
 ARCHIVE_FILE = "archive.json"
 
 if os.path.exists(ARCHIVE_FILE):
