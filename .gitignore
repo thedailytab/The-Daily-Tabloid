@@ -17,24 +17,13 @@ venv/
 .pytest_cache/
 .coverage
 
+# Local admin config (don't commit with actual password)
+# admin-config.js gets auto-generated with hash
+
 # Keep generated files (they're part of the site)
 # index.html
 # archive.json
-# articles/
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Logs
-*.log
-
-# Temporary files
-*.tmp
-temp/
-
-# Don't ignore these generated files - they're part of the site!
-# index.html
+# articles/# index.html
 # archive.json
 # articles/pip-delete-this-directory.txt
 
