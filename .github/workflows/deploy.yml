@@ -2,7 +2,7 @@ name: Generate Tabloid Site
 
 on:
   schedule:
-    - cron: '0 */1 * * *'
+    - cron: '0 * * * *'  # Run every hour at minute 0
   workflow_dispatch:
   push:
     branches: [main]
@@ -31,9 +31,474 @@ jobs:
       - name: Generate site
         env:
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+          ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
         run: python generate.py
         
-      - name: Inject Admin Credentials into admin.html
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update tabloid stories"
+          git push
+          
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+          
+      - name: Deploy to Pages
+        uses: actions/deploy-pages@v4def create_article(headline):
+    title = headline.upper() + " - SHOCKING EXCLUSIVE"
+    slug = make_slug(headline) + ".html"
+    date = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
+    image_url = get_image_url(headline)
+    body = generate_unique_content(headline)
+    
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}</title>
+<style>
+* {{margin: 0; padding: 0; box-sizing: border-box;}}
+body {{font-family: Georgia, serif; background: #f5f5f5; padding: 20px;}}
+nav {{background: #333; padding: 15px 0; margin-bottom: 20px;}}
+nav .container {{max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}}
+nav a {{color: white; text-decoration: none; padding: 10px 20px; font-size: 0.9em;}}
+nav a:hover {{background: #555;}}
+.logo {{font-weight: bold; font-size: 1.2em; color: #c00;}}
+.container {{max-width: 800px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}}
+h1 {{color: #c00; font-size: 2.5em; margin-bottom: 10px; line-height: 1.2;}}
+.meta {{color: #666; font-size: 0.9em; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #c00;}}
+.featured-image {{width: 100%; height: auto; margin-bottom: 30px; border-radius: 5px;}}
+p {{font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;}}
+.back {{margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;}}
+.back a {{color: #c00; text-decoration: none; font-weight: bold;}}
+.back a:hover {{text-decoration: underline;}}
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a href="../index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="../about.html">About</a>
+<a href="../contact.html">Contact</a>
+</div>
+</div>
+</nav>
+<div class="container">
+<h1>{title}</h1>
+<div class="meta">{date}</div>
+<img src="{image_url}" alt="Featured image for {headline}" class="featured-image">
+{body}
+<div class="back"><a href="../index.html">← Back to All Stories</a></div>
+</div>
+</body>
+</html>"""
+    
+    return {"title": title, "slug": slug, "date": date, "html": html, "image": image_url}
+
+def create_homepage(articles):
+    now = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
+    
+    article_list = ""
+    for art in articles:
+        article_list += f"""
+        <div class="story">
+            <a href="articles/{art['slug']}">
+                <img src="{art.get('image', 'https://source.unsplash.com/800x400/?news')}" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/{art['slug']}">{art['title']}</a></h2>
+                <p class="date">{art['date']}</p>
+            </div>
+        </div>
+        """
+    
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tabloid Times - Shocking News Daily</title>
+<style>
+* {{margin: 0; padding: 0; box-sizing: border-box;}}
+body {{font-family: Georgia, serif; background: #f5f5f5; padding: 0;}}
+nav {{background: #333; padding: 15px 0;}}
+nav .container {{max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}}
+nav a {{color: white; text-decoration: none; padding: 10px 20px; font-size: 0.9em;}}
+nav a:hover {{background: #555;}}
+.logo {{font-weight: bold; font-size: 1.2em; color: #c00;}}
+.container {{max-width: 1000px; margin: 0 auto; padding: 20px;}}
+header {{background: #c00; color: white; padding: 40px 20px; text-align: center; margin-bottom: 30px;}}
+h1 {{font-size: 3.5em; text-transform: uppercase; letter-spacing: 2px; text-shadow: 3px 3px 0 #900;}}
+.tagline {{font-size: 1.2em; margin-top: 10px; font-style: italic;}}
+.updated {{text-align: center; color: #666; margin-bottom: 30px;}}
+.story {{background: white; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden;}}
+.story img {{width: 100%; height: 300px; object-fit: cover; display: block;}}
+.story-content {{padding: 30px;}}
+.story h2 {{color: #c00; font-size: 2em; margin-bottom: 10px;}}
+.story a {{color: #c00; text-decoration: none;}}
+.story a:hover {{text-decoration: underline;}}
+.date {{color: #666; font-size: 0.9em;}}
+footer {{text-align: center; padding: 40px 20px; color: #666; border-top: 3px solid #c00; margin-top: 40px;}}
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a href="index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="admin.html">Admin</a>
+</div>
+</div>
+</nav>
+<header>
+<h1>The Tabloid Times</h1>
+<div class="tagline">SHOCKING NEWS • EXCLUSIVE STORIES • UNBELIEVABLE FACTS</div>
+</header>
+<div class="container">
+<div class="updated">Last Updated: {now}</div>
+{article_list}
+</div>
+<footer>
+<p>All stories are 100% real and not made up at all. Okay, okay, it's AI generated satire.</p>
+<p>© {datetime.now().year} The Tabloid Times</p>
+</footer>
+</body>
+</html>"""
+    
+    return html
+
+def create_about_page():
+    html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - The Tabloid Times</title>
+<style>
+* {margin: 0; padding: 0; box-sizing: border-box;}
+body {font-family: Georgia, serif; background: #f5f5f5;}
+nav {background: #333; padding: 15px 0;}
+nav .container {max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}
+nav a {color: white; text-decoration: none; padding: 10px 20px; font-size: 0.9em;}
+nav a:hover {background: #555;}
+.logo {font-weight: bold; font-size: 1.2em; color: #c00;}
+.container {max-width: 800px; margin: 40px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+h1 {color: #c00; font-size: 2.5em; margin-bottom: 20px;}
+p {font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;}
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a href="index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</div>
+</div>
+</nav>
+<div class="container">
+<h1>About The Tabloid Times</h1>
+<p>Welcome to The Tabloid Times, where truth meets satire and reality takes a coffee break!</p>
+<p>We are an AI-powered satirical news site that transforms real headlines into gloriously absurd stories. Our mission is simple: to make you laugh, think, and question everything you read online.</p>
+<p>Every story you see here is automatically generated using cutting-edge AI technology, real news headlines, and a healthy dose of creative absurdity. Think of us as The Onion's quirky robot cousin.</p>
+<p><strong>Disclaimer:</strong> Nothing here is real news. It's all satire, parody, and AI-generated silliness. Please don't quote us in your research papers.</p>
+<p>New stories are automatically generated several times a day, so check back often for your daily dose of delightful nonsense!</p>
+</div>
+</body>
+</html>"""
+    return html
+
+def create_contact_page():
+    html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - The Tabloid Times</title>
+<style>
+* {margin: 0; padding: 0; box-sizing: border-box;}
+body {font-family: Georgia, serif; background: #f5f5f5;}
+nav {background: #333; padding: 15px 0;}
+nav .container {max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}
+nav a {color: white; text-decoration: none; padding: 10px 20px; font-size: 0.9em;}
+nav a:hover {background: #555;}
+.logo {font-weight: bold; font-size: 1.2em; color: #c00;}
+.container {max-width: 600px; margin: 40px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+h1 {color: #c00; font-size: 2.5em; margin-bottom: 20px;}
+p {font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;}
+form {margin-top: 30px;}
+label {display: block; margin-bottom: 8px; font-weight: bold; color: #333;}
+input, textarea {width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; font-family: Georgia, serif; font-size: 1em;}
+textarea {min-height: 150px; resize: vertical;}
+button {background: #c00; color: white; padding: 15px 40px; border: none; border-radius: 4px; font-size: 1.1em; cursor: pointer; font-weight: bold;}
+button:hover {background: #900;}
+.success {background: #4CAF50; color: white; padding: 15px; margin-bottom: 20px; border-radius: 4px; display: none;}
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a href="index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</div>
+</div>
+</nav>
+<div class="container">
+<h1>Contact Us</h1>
+<p>Have a hot tip? Want to suggest a story? Think we're hilarious (or terrible)? Let us know!</p>
+<div class="success" id="successMessage">Message sent successfully! We'll get back to you soon.</div>
+<form id="contactForm">
+<label for="name">Name:</label>
+<input type="text" id="name" name="name" required>
+<label for="email">Email:</label>
+<input type="email" id="email" name="email" required>
+<label for="message">Message:</label>
+<textarea id="message" name="message" required></textarea>
+<button type="submit">Send Message</button>
+</form>
+</div>
+<script>
+const MESSAGES_KEY = 'tabloid_messages';
+
+function saveMessage(name, email, message) {
+    const messages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+    messages.unshift({
+        id: Date.now(),
+        name: name,
+        email: email,
+        message: message,
+        date: new Date().toLocaleString('en-US', {timeZone: 'America/Chicago'})
+    });
+    localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
+}
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    
+    saveMessage(name, email, message);
+    
+    document.getElementById('successMessage').style.display = 'block';
+    this.reset();
+    
+    setTimeout(() => {
+        document.getElementById('successMessage').style.display = 'none';
+    }, 3000);
+});
+</script>
+</body>
+</html>"""
+    return html
+
+def create_admin_page():
+    html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Messages</title>
+<style>
+* {margin: 0; padding: 0; box-sizing: border-box;}
+body {font-family: Georgia, serif; background: #f5f5f5; padding: 20px;}
+.login-container {max-width: 400px; margin: 100px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px;}
+.admin-container {max-width: 1000px; margin: 40px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: none;}
+h1 {color: #c00; margin-bottom: 30px;}
+h2 {color: #c00; margin-bottom: 20px;}
+.login-form input {width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; font-size: 1em;}
+.login-form button {width: 100%; background: #c00; color: white; padding: 15px; border: none; border-radius: 4px; font-size: 1.1em; cursor: pointer; font-weight: bold;}
+.login-form button:hover {background: #900;}
+.error {color: #c00; margin-top: 10px; display: none;}
+.message-card {background: #f9f9f9; border-left: 4px solid #c00; padding: 20px; margin-bottom: 20px; border-radius: 4px;}
+.message-header {display: flex; justify-content: space-between; margin-bottom: 10px; color: #666; font-size: 0.9em;}
+.message-name {font-weight: bold; color: #333; font-size: 1.1em;}
+.message-text {margin-top: 15px; line-height: 1.6;}
+.delete-btn {background: #c00; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 0.9em;}
+.delete-btn:hover {background: #900;}
+.logout-btn {background: #666; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; float: right;}
+.logout-btn:hover {background: #444;}
+.no-messages {text-align: center; color: #666; padding: 40px;}
+</style>
+</head>
+<body>
+<div class="login-container" id="loginContainer">
+<h1>Admin Login</h1>
+<form class="login-form" id="loginForm">
+<input type="password" id="password" placeholder="Enter password" required>
+<button type="submit">Login</button>
+<div class="error" id="loginError">Incorrect password</div>
+</form>
+</div>
+
+<div class="admin-container" id="adminContainer">
+<button class="logout-btn" onclick="logout()">Logout</button>
+<h1>Contact Messages</h1>
+<div id="messagesList"></div>
+</div>
+
+<script src="admin-config.js"></script>
+<script>
+const MESSAGES_KEY = 'tabloid_messages';
+
+async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function checkAuth() {
+    return sessionStorage.getItem('admin_auth') === 'true';
+}
+
+async function login(password) {
+    const hashedInput = await hashPassword(password);
+    if (hashedInput === ADMIN_PASSWORD_HASH) {
+        sessionStorage.setItem('admin_auth', 'true');
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('adminContainer').style.display = 'block';
+        loadMessages();
+        return true;
+    }
+    return false;
+}
+
+function logout() {
+    sessionStorage.removeItem('admin_auth');
+    document.getElementById('loginContainer').style.display = 'block';
+    document.getElementById('adminContainer').style.display = 'none';
+    document.getElementById('password').value = '';
+}
+
+function loadMessages() {
+    const messages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+    const container = document.getElementById('messagesList');
+    
+    if (messages.length === 0) {
+        container.innerHTML = '<div class="no-messages">No messages yet</div>';
+        return;
+    }
+    
+    container.innerHTML = messages.map(msg => `
+        <div class="message-card" id="msg-${msg.id}">
+            <div class="message-header">
+                <span class="message-name">${msg.name} (${msg.email})</span>
+                <span>${msg.date}</span>
+            </div>
+            <div class="message-text">${msg.message}</div>
+            <button class="delete-btn" onclick="deleteMessage(${msg.id})">Delete</button>
+        </div>
+    `).join('');
+}
+
+function deleteMessage(id) {
+    if (confirm('Delete this message?')) {
+        let messages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+        messages = messages.filter(msg => msg.id !== id);
+        localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
+        loadMessages();
+    }
+}
+
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const password = document.getElementById('password').value;
+    const success = await login(password);
+    if (!success) {
+        document.getElementById('loginError').style.display = 'block';
+    }
+});
+
+if (checkAuth()) {
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('adminContainer').style.display = 'block';
+    loadMessages();
+}
+</script>
+</body>
+</html>"""
+    return html
+
+def create_admin_config():
+    """Create hashed password config - password never exposed in source"""
+    username = os.environ.get("ADMIN_USERNAME", "admin")
+    password = os.environ.get("ADMIN_PASSWORD", "tabloid2026")
+    
+    # Create SHA-256 hash for password
+    password_hash = hashlib.sha256(password.encode()).hexdigest()
+    # Create SHA-256 hash for username  
+    username_hash = hashlib.sha256(username.encode()).hexdigest()
+    
+    js_content = f"""// Auto-generated admin credentials hash - secure and safe to be public
+const ADMIN_USERNAME_HASH = '{username_hash}';
+const ADMIN_PASSWORD_HASH = '{password_hash}';
+"""
+    return js_content
+
+def main():
+    print("Starting Tabloid Times generator...")
+    
+    os.makedirs("articles", exist_ok=True)
+    
+    headlines = fetch_news()
+    archive = load_archive()
+    new_articles = []
+    
+    for headline in headlines:
+        article = create_article(headline)
+        new_articles.append({
+            "title": article["title"],
+            "slug": article["slug"],
+            "date": article["date"],
+            "image": article["image"]
+        })
+        
+        filepath = os.path.join("articles", article["slug"])
+        with open(filepath, "w") as f:
+            f.write(article["html"])
+        print(f"Created: {article['slug']}")
+    
+    all_articles = new_articles + archive
+    save_archive(all_articles)
+    
+    homepage = create_homepage(all_articles)
+    with open("index.html", "w") as f:
+        f.write(homepage)
+    
+    about_page = create_about_page()
+    with open("about.html", "w") as f:
+        f.write(about_page)
+    
+    contact_page = create_contact_page()
+    with open("contact.html", "w") as f:
         env:
           ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
           ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
