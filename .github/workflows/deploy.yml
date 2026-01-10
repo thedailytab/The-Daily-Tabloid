@@ -2,7 +2,7 @@ name: Generate Tabloid Site
 
 on:
   schedule:
-    - cron: '0 */1 * * *'
+    - cron: '0 */1 * * *'  # Every hour - adjust as needed
   workflow_dispatch:
   push:
     branches: [main]
@@ -33,8 +33,47 @@ jobs:
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
         run: python generate.py
         
+      - name: Inject Admin Credentials into admin.html
+        env:
+          ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+        run: |
+          if [ -f "admin.html" ]; then
+            sed -i "s/const ADMIN_USERNAME = window.ADMIN_USERNAME || 'admin';/const ADMIN_USERNAME = window.ADMIN_USERNAME = '${ADMIN_USERNAME}' || 'admin';/g" admin.html
+            sed -i "s/const ADMIN_PASSWORD = window.ADMIN_PASSWORD || 'password';/const ADMIN_PASSWORD = window.ADMIN_PASSWORD = '${ADMIN_PASSWORD}' || 'password';/g" admin.html
+            echo "Admin credentials injected into admin.html"
+          else
+            echo "admin.html not found - skipping injection"
+          fi
+        
       - name: Commit changes
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || git commit -m "Update tabloid stories + admin credentials"
+          git push
+          
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+        
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+          
+      - name: Deploy to Pages
+        uses: actions/deploy-pages@v4        run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
