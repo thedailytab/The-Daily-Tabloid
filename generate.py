@@ -419,6 +419,391 @@ h2 {color: #c00; margin-bottom: 20px;}
 .delete-btn {background: #c00; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 0.9em;}
 .delete-btn:hover {background: #900;}
 .logout-btn {background: #666; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; float: right;}
+.logout-btn:hover     
+    try:
+        url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_KEY}"
+        resp = requests.get(url, timeout=10)
+        data = resp.json()
+        
+        if "articles" in data:
+            # Get more articles to ensure variety
+            titles = [a["title"] for a in data["articles"][:10] if a.get("title")]
+            # Return only 2 random articles per run for hourly updates
+            if len(titles) >= 2:
+                selected = random.sample(titles, 2)
+            else:
+                selected = titles[:2]
+            print(f"Selected {len(selected)} headlines for this hour")
+            return selected
+    except Exception as e:
+        print(f"API error: {e}")
+    
+    return ["Breaking News Breaks", "Story Develops Into Story"]
+
+def make_slug(text):
+    clean = re.sub(r'[^a-z0-9]+', '-', text.lower())
+    return clean.strip('-')[:50]
+
+def get_image_url(headline):
+    """Get placeholder image - using placeholder.com which is ultra-reliable"""
+    # Use a completely reliable placeholder service
+    # Each article gets a unique color based on headline
+    colors = ['FF6B6B', '4ECDC4', '45B7D1', 'FFA07A', '98D8C8', 'F7DC6F', 'BB8FCE', '85C1E2']
+    color_index = abs(hash(headline)) % len(colors)
+    color = colors[color_index]
+    
+    # Alternative: just use a static, always-working image URL
+    return f"https://via.placeholder.com/1200x600/{color}/FFFFFF?text=Breaking+News"
+
+def generate_unique_content(headline):
+    """Generate truly varied and actually funny satirical content"""
+    
+    # Extract key elements from headline
+    words = headline.lower().split()
+    subject = ' '.join(words[:5]) if len(words) >= 5 else headline.lower()
+    
+    # Remove common news source tags
+    subject = re.sub(r'\s*-\s*(cnn|fox|abc|nbc|bbc|reuters|associated press).*
+
+def create_article(headline):
+    title = headline.upper() + " - SHOCKING EXCLUSIVE"
+    slug = make_slug(headline) + ".html"
+    date = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
+    image_url = get_image_url(headline)
+    body = generate_unique_content(headline)
+    
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}</title>
+<style>
+* {{margin: 0; padding: 0; box-sizing: border-box;}}
+body {{font-family: Georgia, serif; background: #f5f5f5; padding: 20px;}}
+nav {{background: #333; padding: 15px 0; margin-bottom: 20px;}}
+nav .container {{max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;}}
+nav a {{color: white; text-decoration: none; padding: 10px 20px; font-size: 0.9em;}}
+nav a:hover {{background: #555;}}
+.logo {{font-weight: bold; font-size: 1.2em; color: #c00;}}
+.container {{max-width: 800px; margin: 0 auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}}
+h1 {{color: #c00; font-size: 2.5em; margin-bottom: 10px; line-height: 1.2;}}
+.meta {{color: #666; font-size: 0.9em; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #c00;}}
+.featured-image {{width: 100%; height: auto; margin-bottom: 30px; border-radius: 5px;}}
+p {{font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;}}
+.back {{margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd;}}
+.back a {{color: #c00; text-decoration: none; font-weight: bold;}}
+.back a:hover {{text-decoration: underline;}}
+.share-section {{margin: 40px 0; padding: 30px; background: #f9f9f9; border-radius: 8px; text-align: center;}}
+.share-section h3 {{color: #333; margin-bottom: 20px; font-size: 1.5em;}}
+.share-buttons {{display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;}}
+.share-btn {{display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 6px; text-decoration: none; color: white; font-weight: bold; font-size: 0.95em; transition: transform 0.2s, box-shadow 0.2s;}}
+.share-btn:hover {{transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2);}}
+.share-twitter {{background: #1DA1F2;}}
+.share-facebook {{background: #1877F2;}}
+.share-linkedin {{background: #0A66C2;}}
+.share-reddit {{background: #FF4500;}}
+.share-email {{background: #666;}}
+.share-copy {{background: #4CAF50;}}
+.share-btn svg {{width: 20px; height: 20px; fill: white;}}
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a href="../index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="../about.html">About</a>
+<a href="../contact.html">Contact</a>
+<a href="../admin.html">Admin</a>
+</div>
+</div>
+</nav>
+<div class="container">
+<h1>{title}</h1>
+<div class="meta">{date}</div>
+<img src="{image_url}" alt="Featured image for {headline}" class="featured-image">
+{body}
+
+<div class="share-section">
+<h3>Share This Ridiculous Story</h3>
+<div class="share-buttons">
+<a href="https://twitter.com/intent/tweet?text={encoded_title}&url={encoded_url}" target="_blank" class="share-btn share-twitter">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+Share on X
+</a>
+<a href="https://www.facebook.com/sharer/sharer.php?u={encoded_url}" target="_blank" class="share-btn share-facebook">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+Share on Facebook
+</a>
+<a href="https://www.linkedin.com/sharing/share-offsite/?url={encoded_url}" target="_blank" class="share-btn share-linkedin">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+Share on LinkedIn
+</a>
+<a href="https://reddit.com/submit?url={encoded_url}&title={encoded_title}" target="_blank" class="share-btn share-reddit">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+Share on Reddit
+</a>
+<a href="mailto:?subject={encoded_title}&body=Check out this story: {encoded_url}" class="share-btn share-email">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+Email
+</a>
+<button onclick="copyLink()" class="share-btn share-copy">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+Copy Link
+</button>
+</div>
+</div>
+
+<div class="back"><a href="../index.html">← Back to All Stories</a></div>
+</div>
+
+<script>
+function copyLink() {{
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {{
+        const btn = event.target.closest('button');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:20px;height:20px;fill:white;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>Copied!';
+        setTimeout(() => {{
+            btn.innerHTML = originalText;
+        }}, 2000);
+    }});
+}}
+</script>
+</body>
+</html>"""
+    
+    return {"title": title, "slug": slug, "date": date, "html": html, "image": image_url}
+
+def create_homepage(articles):
+    now = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
+    
+    article_list = ""
+    for art in articles:
+        article_list += f"""
+        <div class="story">
+            <a href="articles/{art['slug']}">
+                <img src="{art.get('image', 'https://source.unsplash.com/800x400/?news')}" alt="Story image">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/{art['slug']}">{art['title']}</a></h2>
+                <p class="date">{art['date']}</p>
+            </div>
+        </div>
+        """
+    
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Tabloid Times - Shocking News Daily</title>
+<style>
+* {{margin: 0; padding: 0; box-sizing: border-box;}}
+body {{font-family: Georgia, serif; background: #f5f5f5; padding: 0;}}
+nav {{background: #333; padding: 15px 0;}}
+nav .container {{max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}}
+nav a {{color: white; text-decoration: none; padding: 10px 20px; font-size: 0.9em;}}
+nav a:hover {{background: #555;}}
+.logo {{font-weight: bold; font-size: 1.2em; color: #c00;}}
+.container {{max-width: 1000px; margin: 0 auto; padding: 20px;}}
+header {{background: #c00; color: white; padding: 40px 20px; text-align: center; margin-bottom: 30px;}}
+h1 {{font-size: 3.5em; text-transform: uppercase; letter-spacing: 2px; text-shadow: 3px 3px 0 #900;}}
+.tagline {{font-size: 1.2em; margin-top: 10px; font-style: italic;}}
+.updated {{text-align: center; color: #666; margin-bottom: 30px;}}
+.story {{background: white; margin-bottom: 30px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden;}}
+.story img {{width: 100%; height: 300px; object-fit: cover; display: block;}}
+.story-content {{padding: 30px;}}
+.story h2 {{color: #c00; font-size: 2em; margin-bottom: 10px;}}
+.story a {{color: #c00; text-decoration: none;}}
+.story a:hover {{text-decoration: underline;}}
+.date {{color: #666; font-size: 0.9em;}}
+footer {{text-align: center; padding: 40px 20px; color: #666; border-top: 3px solid #c00; margin-top: 40px;}}
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a href="index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="admin.html">Admin</a>
+</div>
+</div>
+</nav>
+<header>
+<h1>The Tabloid Times</h1>
+<div class="tagline">SHOCKING NEWS • EXCLUSIVE STORIES • UNBELIEVABLE FACTS</div>
+</header>
+<div class="container">
+<div class="updated">Last Updated: {now}</div>
+{article_list}
+</div>
+<footer>
+<p>All stories are 100% real and not made up at all. Okay, okay, it's AI generated satire.</p>
+<p>© {datetime.now().year} The Tabloid Times</p>
+</footer>
+</body>
+</html>"""
+    
+    return html
+
+def create_about_page():
+    html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About - The Tabloid Times</title>
+<style>
+* {margin: 0; padding: 0; box-sizing: border-box;}
+body {font-family: Georgia, serif; background: #f5f5f5;}
+nav {background: #333; padding: 15px 0;}
+nav .container {max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}
+nav a {color: white; text-decoration: none; padding: 10px 20px; font-size: 0.9em;}
+nav a:hover {background: #555;}
+.logo {font-weight: bold; font-size: 1.2em; color: #c00;}
+.container {max-width: 800px; margin: 40px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+h1 {color: #c00; font-size: 2.5em; margin-bottom: 20px;}
+p {font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;}
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a href="index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</div>
+</div>
+</nav>
+<div class="container">
+<h1>About The Tabloid Times</h1>
+<p>Welcome to The Tabloid Times, where truth meets satire and reality takes a coffee break!</p>
+<p>We are an AI-powered satirical news site that transforms real headlines into gloriously absurd stories. Our mission is simple: to make you laugh, think, and question everything you read online.</p>
+<p>Every story you see here is automatically generated using cutting-edge AI technology, real news headlines, and a healthy dose of creative absurdity. Think of us as The Onion's quirky robot cousin.</p>
+<p><strong>Disclaimer:</strong> Nothing here is real news. It's all satire, parody, and AI-generated silliness. Please don't quote us in your research papers.</p>
+<p>New stories are automatically generated several times a day, so check back often for your daily dose of delightful nonsense!</p>
+</div>
+</body>
+</html>"""
+    return html
+
+def create_contact_page():
+    html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - The Tabloid Times</title>
+<style>
+* {margin: 0; padding: 0; box-sizing: border-box;}
+body {font-family: Georgia, serif; background: #f5f5f5;}
+nav {background: #333; padding: 15px 0;}
+nav .container {max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;}
+nav a {color: white; text-decoration: none; padding: 10px 20px; font-size: 0.9em;}
+nav a:hover {background: #555;}
+.logo {font-weight: bold; font-size: 1.2em; color: #c00;}
+.container {max-width: 600px; margin: 40px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+h1 {color: #c00; font-size: 2.5em; margin-bottom: 20px;}
+p {font-size: 1.1em; line-height: 1.8; margin-bottom: 20px;}
+form {margin-top: 30px;}
+label {display: block; margin-bottom: 8px; font-weight: bold; color: #333;}
+input, textarea {width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; font-family: Georgia, serif; font-size: 1em;}
+textarea {min-height: 150px; resize: vertical;}
+button {background: #c00; color: white; padding: 15px 40px; border: none; border-radius: 4px; font-size: 1.1em; cursor: pointer; font-weight: bold;}
+button:hover {background: #900;}
+.success {background: #4CAF50; color: white; padding: 15px; margin-bottom: 20px; border-radius: 4px; display: none;}
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a href="index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+</div>
+</div>
+</nav>
+<div class="container">
+<h1>Contact Us</h1>
+<p>Have a hot tip? Want to suggest a story? Think we're hilarious (or terrible)? Let us know!</p>
+<div class="success" id="successMessage">Message sent successfully! We'll get back to you soon.</div>
+<form id="contactForm">
+<label for="name">Name:</label>
+<input type="text" id="name" name="name" required>
+<label for="email">Email:</label>
+<input type="email" id="email" name="email" required>
+<label for="message">Message:</label>
+<textarea id="message" name="message" required></textarea>
+<button type="submit">Send Message</button>
+</form>
+</div>
+<script>
+const MESSAGES_KEY = 'tabloid_messages';
+
+function saveMessage(name, email, message) {
+    const messages = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]');
+    messages.unshift({
+        id: Date.now(),
+        name: name,
+        email: email,
+        message: message,
+        date: new Date().toLocaleString('en-US', {timeZone: 'America/Chicago'})
+    });
+    localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
+}
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+    
+    saveMessage(name, email, message);
+    
+    document.getElementById('successMessage').style.display = 'block';
+    this.reset();
+    
+    setTimeout(() => {
+        document.getElementById('successMessage').style.display = 'none';
+    }, 3000);
+});
+</script>
+</body>
+</html>"""
+    return html
+
+def create_admin_page():
+    html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Messages</title>
+<style>
+* {margin: 0; padding: 0; box-sizing: border-box;}
+body {font-family: Georgia, serif; background: #f5f5f5; padding: 20px;}
+.login-container {max-width: 400px; margin: 100px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); border-radius: 8px;}
+.admin-container {max-width: 1000px; margin: 40px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: none;}
+h1 {color: #c00; margin-bottom: 30px;}
+h2 {color: #c00; margin-bottom: 20px;}
+.login-form input {width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 4px; font-size: 1em;}
+.login-form button {width: 100%; background: #c00; color: white; padding: 15px; border: none; border-radius: 4px; font-size: 1.1em; cursor: pointer; font-weight: bold;}
+.login-form button:hover {background: #900;}
+.error {color: #c00; margin-top: 10px; display: none;}
+.message-card {background: #f9f9f9; border-left: 4px solid #c00; padding: 20px; margin-bottom: 20px; border-radius: 4px;}
+.message-header {display: flex; justify-content: space-between; margin-bottom: 10px; color: #666; font-size: 0.9em;}
+.message-name {font-weight: bold; color: #333; font-size: 1.1em;}
+.message-text {margin-top: 15px; line-height: 1.6;}
+.delete-btn {background: #c00; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-size: 0.9em;}
+.delete-btn:hover {background: #900;}
+.logout-btn {background: #666; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; float: right;}
 .logout-btn:hover {background: #444;}
 .no-messages {text-align: center; color: #666; padding: 40px;}
 </style>
