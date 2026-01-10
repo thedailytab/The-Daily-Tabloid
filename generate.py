@@ -1,3 +1,6 @@
+# This is the COMPLETE generate.py file from the beginning
+# Copy this ENTIRE file to replace your generate.py
+
 import os
 import json
 import requests
@@ -11,7 +14,6 @@ API_KEY = os.environ.get("NEWS_API_KEY", "")
 ARCHIVE = "archive.json"
 
 def get_cst_time():
-    """Get current time in CST"""
     cst = timezone(timedelta(hours=-6))
     return datetime.now(cst)
 
@@ -27,13 +29,8 @@ def save_archive(data):
 
 def fetch_news():
     if not API_KEY:
-        print("No API key found, using fallback headlines")
-        return [
-            "Local Cat Declares Itself Mayor",
-            "Man Wins Lottery Twice in One Day",
-            "Scientists Discover Coffee Makes You Awake",
-            "Celebrity Spotted Eating Food",
-        ]
+        print("No API key, using fallback")
+        return ["Cat Elected Mayor", "Man Wins Lottery Twice"]
     
     try:
         url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_KEY}"
@@ -46,139 +43,329 @@ def fetch_news():
                 selected = random.sample(titles, 2)
             else:
                 selected = titles[:2]
-            print(f"Selected {len(selected)} headlines for this hour")
+            print(f"Selected {len(selected)} headlines")
             return selected
     except Exception as e:
         print(f"API error: {e}")
     
-    return ["Breaking News Breaks", "Story Develops Into Story"]
+    return ["Breaking News", "Story Develops"]
 
 def make_slug(text):
     clean = re.sub(r'[^a-z0-9]+', '-', text.lower())
     return clean.strip('-')[:50]
 
 def get_image_url(headline):
-    """Get placeholder image - using placeholder.com which is ultra-reliable"""
-    colors = ['FF6B6B', '4ECDC4', '45B7D1', 'FFA07A', '98D8C8', 'F7DC6F', 'BB8FCE', '85C1E2']
-    color_index = abs(hash(headline)) % len(colors)
-    color = colors[color_index]
+    colors = ['FF6B6B', '4ECDC4', '45B7D1', 'FFA07A', '98D8C8', 'F7DC6F']
+    color = colors[abs(hash(headline)) % len(colors)]
     return f"https://via.placeholder.com/1200x600/{color}/FFFFFF?text=Breaking+News"
 
-def generate_unique_content(headline):
-    """Generate truly varied and actually funny satirical content"""
-    
+def generate_content(headline):
     words = headline.lower().split()
     subject = ' '.join(words[:5]) if len(words) >= 5 else headline.lower()
-    subject = re.sub(r'\s*-\s*(cnn|fox|abc|nbc|bbc|reuters).*$', '', subject, flags=re.IGNORECASE)
     
     openings = [
-        f"In a move that surprised absolutely nobody who has been paying attention, {subject}.",
-        f"Local sources confirm what everyone already suspected: {subject}.",
-        f"Breaking: {subject}. When reached for comment, the universe shrugged.",
-        f"Shocking development in ongoing series of developments: {subject}.",
-        f"Area residents report that {subject}, immediately regret reading the news today.",
-        f"In what experts are calling 'peak 2026,' {subject}.",
-        f"Scientists baffled to discover that {subject}, despite literally predicting this exact thing last week.",
-        f"Nation collectively says 'well, that figures' as {subject}.",
-        f"Reports indicate {subject}. Nation's eyeballs remain rolled.",
-        f"This just in: {subject}. Nation's surprise meter registers absolute zero.",
-        f"Developing story: {subject}. Editors scramble to make this sound more interesting than it is.",
-        f"In scenes reminiscent of every other week this year, {subject}.",
-        f"Exclusive: {subject}. In related news, sky still blue, water still wet.",
-        f"Sources reveal {subject}, promptly get ignored by everyone who could do anything about it.",
-        f"Analysis reveals {subject}. Analysis also reveals that nobody asked for this analysis.",
-        f"The thing that everyone said would happen has happened: {subject}.",
-        f"Controversial new development: {subject}. Controversy expected to last until next news cycle.",
-        f"Officials scramble to explain how {subject}, despite it being painfully obvious.",
-        f"In a stunning display of doing exactly what was expected, {subject}.",
-        f"Recent events suggest {subject}. Recent events also suggest we're all just making this up as we go.",
-        f"Experts convene emergency meeting to discuss how {subject}, decide to just tweet about it instead.",
-        f"Late-breaking: {subject}. Not really that late, and not really breaking, but here we are.",
-        f"Sources close to the situation report {subject}, immediately distance themselves from said situation.",
-        f"Witnesses stunned as {subject}, despite witnessing identical events every single week.",
-        f"Investigation reveals {subject}. Investigation then gets defunded.",
-        f"In what historians will probably forget by Tuesday, {subject}.",
-        f"Concerned citizens demand to know why {subject}, realize they don't actually want to know.",
-        f"Local man confident that {subject}, wrong about everything else in life.",
-        f"After extensive research, experts conclude {subject}. Research budget immediately questioned.",
-        f"Multiple sources now confirm {subject}, multiple sources also need to find better hobbies.",
+        f"In a move that surprised nobody, {subject}.",
+        f"Breaking: {subject}. The universe shrugged.",
+        f"Nation says 'well, that figures' as {subject}.",
     ]
     
-    quote_sets = [
-        [
-            '"This is definitely a thing that is happening," confirmed Captain Obvious, who graduated top of his class at Obvious University.',
-            '"I am deeply concerned," said local concern-haver, deeply.',
-            '"Somebody should do something," suggested person who will definitely not be doing anything.',
-        ],
-        [
-            '"I cannot believe this," gasped woman who absolutely should have seen this coming.',
-            '"This changes everything," announced man who says this about his lunch order.',
-            '"The implications are staggering," wheezed pundit who needs to get out more.',
-        ],
-        [
-            '"Well, that escalated," noted person who watched it escalate in slow motion over six months.',
-            '"We need answers," demanded questioner with no intention of listening to answers.',
-            '"This is unprecedented," claimed historian with very selective memory.',
-        ],
-        [
-            '"Literally shaking right now," typed person sitting perfectly still.',
-            '"Nobody could have predicted this," lied psychic who predicted this exact thing.',
-            '"History will remember this," predicted fortune teller with spotty track record.',
-        ],
-        [
-            '"I have seen a lot in my career, but this..." trailed off person who has seen way worse.',
-            '"The science is clear," stated scientist, referring to completely different science.',
-            '"This violates everything we know," claimed expert who knows very little.',
-        ],
-        [
-            '"As a mother," began woman, continuing to somehow make this about herself.',
-            '"Speaking as an American," prefaced non-expert before sharing completely uninformed opinion.',
-            '"I\'m not saying it was aliens, but..." suggested person definitely saying it was aliens.',
-        ],
-        [
-            '"We must come together," urged person currently arguing with strangers online.',
-            '"This is what democracy looks like," shouted protester at non-democratic event.',
-            '"The children are our future," stated person who avoids children at all costs.',
-        ],
-        [
-            '"I have receipts," threatened person with screenshots nobody will ever see.',
-            '"Do your own research," suggested researcher who did no research.',
-            '"Wake up, sheeple!" bleated person who is definitely also a sheeple.',
-        ],
-        [
-            '"This is fine," muttered dog in burning building.',
-            '"Nothing to see here," insisted person standing in front of spectacular disaster.',
-            '"Perfectly normal," claimed spokesperson for increasingly abnormal situation.',
-        ],
-        [
-            '"They don\'t want you to know this," whispered conspiracy theorist with public YouTube channel.',
-            '"The mainstream media won\'t cover this," posted person to mainstream media outlet.',
-            '"I\'m just asking questions," said person absolutely not just asking questions.',
-        ],
+    quotes = [
+        '"This is definitely happening," confirmed Captain Obvious.',
+        '"I am deeply concerned," said local concern-haver.',
+        '"Well, that escalated," noted obvious observer.',
     ]
     
-    detail_sets = [
-        [
-            "Our investigative team spent literally minutes on this story before deciding it wasn't worth more minutes.",
-            "According to documents that may or may not exist, the situation has been developing since approximately whenever.",
-            "Eyewitnesses report seeing things with their eyes, witnesses report witnessing things, and eye-havers report having eyes.",
-            "Social media erupted in its usual fashion: thousands of people typing things they'll regret in 20 minutes.",
-        ],
-        [
-            "Industry insiders who are totally real and not made up confirm that they are indeed inside the industry.",
-            "Legal experts predict this could have legal implications, or possibly no implications, billable hours remain constant.",
-            "Data shows a strong correlation between this event and the forward progression of time.",
-            "Critics criticize while supporters support, in a display of doing exactly what their job titles suggest.",
-        ],
-        [
-            "Anonymous sources, speaking on condition of anonymity because they're anonymous, anonymously confirmed anonymous things.",
-            "Leaked documents reveal shocking information that was already public knowledge.",
-            "Insider knowledge from outsiders suggests that insiders might be outside or possibly inside.",
-            "Confidential reports that everyone has seen indicate things that everyone already knew.",
-        ],
-        [
-            "The public responded with their usual mixture of outrage, indifference, and confusion about what's happening.",
-            "International observers observed internationally while observing international observations.",
+    details = [
+        "Our team spent minutes on this story.",
+        "Social media erupted in its usual fashion.",
+        "Experts remain divided about dinner plans.",
+    ]
+    
+    conclusions = [
+        "More updates coming, probably.",
+        "The nation watches, then checks TikTok.",
+        "This concludes our coverage.",
+    ]
+    
+    paragraphs = [f"<p><strong>BREAKING:</strong> {random.choice(openings)}</p>"]
+    for q in random.sample(quotes, 2):
+        paragraphs.append(f"<p>{q}</p>")
+    for d in random.sample(details, 2):
+        paragraphs.append(f"<p>{d}</p>")
+    for c in conclusions:
+        paragraphs.append(f"<p>{c}</p>")
+    
+    return "\n".join(paragraphs)
+
+def create_article(headline):
+    title = headline.upper() + " - SHOCKING EXCLUSIVE"
+    slug = make_slug(headline) + ".html"
+    date = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
+    image_url = get_image_url(headline)
+    body = generate_content(headline)
+    
+    encoded_title = headline.replace(' ', '%20')
+    encoded_url = f"https://thedailytab.github.io/The-Daily-Tabloid/articles/{slug}"
+    
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{title}</title>
+<style>
+* {{margin:0; padding:0; box-sizing:border-box;}}
+body {{font-family:Georgia,serif; background:#f5f5f5; padding:20px;}}
+nav {{background:#333; padding:15px 0; margin-bottom:20px;}}
+nav .container {{max-width:1000px; margin:0 auto; display:flex; justify-content:space-between; padding:0 20px;}}
+nav a {{color:white; text-decoration:none; padding:10px 20px;}}
+nav a:hover {{background:#555;}}
+.logo {{font-weight:bold; color:#c00;}}
+.container {{max-width:800px; margin:0 auto; background:white; padding:40px; box-shadow:0 2px 10px rgba(0,0,0,0.1);}}
+h1 {{color:#c00; font-size:2.5em; margin-bottom:10px;}}
+.meta {{color:#666; margin-bottom:30px; padding-bottom:20px; border-bottom:3px solid #c00;}}
+img {{width:100%; margin-bottom:30px; border-radius:5px;}}
+p {{font-size:1.1em; line-height:1.8; margin-bottom:20px;}}
+.share-section {{margin:40px 0; padding:30px; background:#f9f9f9; text-align:center;}}
+.share-buttons {{display:flex; justify-content:center; gap:15px; flex-wrap:wrap; margin-top:20px;}}
+.share-btn {{padding:12px 24px; border-radius:6px; color:white; text-decoration:none; font-weight:bold;}}
+.share-twitter {{background:#1DA1F2;}}
+.share-facebook {{background:#1877F2;}}
+.share-reddit {{background:#FF4500;}}
+.back {{margin-top:40px; padding-top:20px; border-top:1px solid #ddd;}}
+.back a {{color:#c00; text-decoration:none; font-weight:bold;}}
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a href="../index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="../about.html">About</a>
+<a href="../contact.html">Contact</a>
+<a href="../admin.html">Admin</a>
+</div>
+</div>
+</nav>
+<div class="container">
+<h1>{title}</h1>
+<div class="meta">{date}</div>
+<img src="{image_url}" alt="News">
+{body}
+<div class="share-section">
+<h3>Share This Story</h3>
+<div class="share-buttons">
+<a href="https://twitter.com/intent/tweet?text={encoded_title}&url={encoded_url}" target="_blank" class="share-btn share-twitter">Share on X</a>
+<a href="https://www.facebook.com/sharer/sharer.php?u={encoded_url}" target="_blank" class="share-btn share-facebook">Share on Facebook</a>
+<a href="https://reddit.com/submit?url={encoded_url}&title={encoded_title}" target="_blank" class="share-btn share-reddit">Share on Reddit</a>
+</div>
+</div>
+<div class="back"><a href="../index.html">← Back to All Stories</a></div>
+</div>
+</body>
+</html>"""
+    
+    return {"title": title, "slug": slug, "date": date, "html": html, "image": image_url}
+
+def create_homepage(articles):
+    now = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
+    
+    article_list = ""
+    for art in articles:
+        article_list += f"""
+        <div class="story">
+            <a href="articles/{art['slug']}">
+                <img src="{art.get('image', 'https://via.placeholder.com/800x400/FF6B6B/FFFFFF?text=News')}" alt="Story">
+            </a>
+            <div class="story-content">
+                <h2><a href="articles/{art['slug']}">{art['title']}</a></h2>
+                <p class="date">{art['date']}</p>
+            </div>
+        </div>
+        """
+    
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Tabloid Times</title>
+<style>
+* {{margin:0; padding:0; box-sizing:border-box;}}
+body {{font-family:Georgia,serif; background:#f5f5f5;}}
+nav {{background:#333; padding:15px 0;}}
+nav .container {{max-width:1000px; margin:0 auto; display:flex; justify-content:space-between; padding:0 20px;}}
+nav a {{color:white; text-decoration:none; padding:10px 20px;}}
+nav a:hover {{background:#555;}}
+.logo {{font-weight:bold; color:#c00;}}
+header {{background:#c00; color:white; padding:40px 20px; text-align:center; margin-bottom:30px;}}
+h1 {{font-size:3.5em; text-transform:uppercase; text-shadow:3px 3px 0 #900;}}
+.tagline {{font-size:1.2em; margin-top:10px; font-style:italic;}}
+.container {{max-width:1000px; margin:0 auto; padding:20px;}}
+.updated {{text-align:center; color:#666; margin-bottom:30px;}}
+.story {{background:white; margin-bottom:30px; box-shadow:0 2px 5px rgba(0,0,0,0.1); overflow:hidden;}}
+.story img {{width:100%; height:300px; object-fit:cover;}}
+.story-content {{padding:30px;}}
+.story h2 {{color:#c00; font-size:2em; margin-bottom:10px;}}
+.story a {{color:#c00; text-decoration:none;}}
+.story a:hover {{text-decoration:underline;}}
+.date {{color:#666;}}
+footer {{text-align:center; padding:40px 20px; color:#666; border-top:3px solid #c00; margin-top:40px;}}
+</style>
+</head>
+<body>
+<nav>
+<div class="container">
+<a href="index.html" class="logo">The Tabloid Times</a>
+<div>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+<a href="admin.html">Admin</a>
+</div>
+</div>
+</nav>
+<header>
+<h1>The Tabloid Times</h1>
+<div class="tagline">SHOCKING NEWS - EXCLUSIVE STORIES - UNBELIEVABLE FACTS</div>
+</header>
+<div class="container">
+<div class="updated">Last Updated: {now}</div>
+{article_list}
+</div>
+<footer>
+<p>All stories are 100% real and not made up at all. Okay, okay, it's AI generated satire.</p>
+<p>&copy; 2026 The Tabloid Times</p>
+</footer>
+</body>
+</html>"""
+    
+    return html
+
+def create_about_page():
+    return """<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>About</title>
+<style>
+body {font-family:Georgia,serif; background:#f5f5f5; margin:0;}
+nav {background:#333; padding:15px 0;}
+nav .container {max-width:1000px; margin:0 auto; display:flex; justify-content:space-between; padding:0 20px;}
+nav a {color:white; text-decoration:none; padding:10px 20px;}
+.logo {font-weight:bold; color:#c00;}
+.container {max-width:800px; margin:40px auto; background:white; padding:40px;}
+h1 {color:#c00; margin-bottom:20px;}
+p {line-height:1.8; margin-bottom:20px;}
+</style></head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">The Tabloid Times</a>
+<div><a href="about.html">About</a><a href="contact.html">Contact</a><a href="admin.html">Admin</a></div>
+</div></nav>
+<div class="container">
+<h1>About The Tabloid Times</h1>
+<p>Welcome to The Tabloid Times, where truth meets satire!</p>
+<p>We are an AI-powered satirical news site. Nothing here is real news. It's all satire and AI-generated silliness.</p>
+</div></body></html>"""
+
+def create_contact_page():
+    return """<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Contact</title>
+<style>
+body {font-family:Georgia,serif; background:#f5f5f5; margin:0;}
+nav {background:#333; padding:15px 0;}
+nav .container {max-width:1000px; margin:0 auto; display:flex; justify-content:space-between; padding:0 20px;}
+nav a {color:white; text-decoration:none; padding:10px 20px;}
+.logo {font-weight:bold; color:#c00;}
+.container {max-width:600px; margin:40px auto; background:white; padding:40px;}
+h1 {color:#c00; margin-bottom:20px;}
+input,textarea {width:100%; padding:12px; margin-bottom:20px; border:1px solid #ddd; border-radius:4px;}
+button {background:#c00; color:white; padding:15px 40px; border:none; border-radius:4px; cursor:pointer; font-weight:bold;}
+.success {background:#4CAF50; color:white; padding:15px; margin-bottom:20px; border-radius:4px; display:none;}
+</style></head>
+<body>
+<nav><div class="container">
+<a href="index.html" class="logo">The Tabloid Times</a>
+<div><a href="about.html">About</a><a href="contact.html">Contact</a><a href="admin.html">Admin</a></div>
+</div></nav>
+<div class="container">
+<h1>Contact Us</h1>
+<div class="success" id="msg">Message sent!</div>
+<form id="form">
+<input type="text" id="name" placeholder="Name" required>
+<input type="email" id="email" placeholder="Email" required>
+<textarea id="message" placeholder="Message" required></textarea>
+<button type="submit">Send</button>
+</form>
+</div>
+<script>
+document.getElementById('form').onsubmit = function(e) {
+    e.preventDefault();
+    const messages = JSON.parse(localStorage.getItem('tabloid_messages') || '[]');
+    messages.unshift({
+        id: Date.now(),
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value,
+        date: new Date().toLocaleString()
+    });
+    localStorage.setItem('tabloid_messages', JSON.stringify(messages));
+    document.getElementById('msg').style.display = 'block';
+    this.reset();
+    setTimeout(() => document.getElementById('msg').style.display = 'none', 3000);
+};
+</script>
+</body></html>"""
+
+def create_admin_config():
+    username = os.environ.get("ADMIN_USERNAME", "admin")
+    password = os.environ.get("ADMIN_PASSWORD", "tabloid2026")
+    username_hash = hashlib.sha256(username.encode()).hexdigest()
+    password_hash = hashlib.sha256(password.encode()).hexdigest()
+    return f"""const ADMIN_USERNAME_HASH = '{username_hash}';
+const ADMIN_PASSWORD_HASH = '{password_hash}';
+"""
+
+def main():
+    print("Starting generator...")
+    os.makedirs("articles", exist_ok=True)
+    
+    headlines = fetch_news()
+    archive = load_archive()
+    new_articles = []
+    
+    for headline in headlines:
+        article = create_article(headline)
+        new_articles.append({
+            "title": article["title"],
+            "slug": article["slug"],
+            "date": article["date"],
+            "image": article["image"]
+        })
+        
+        with open(f"articles/{article['slug']}", "w") as f:
+            f.write(article["html"])
+        print(f"Created: {article['slug']}")
+    
+    all_articles = new_articles + archive
+    save_archive(all_articles)
+    
+    with open("index.html", "w") as f:
+        f.write(create_homepage(all_articles))
+    
+    with open("about.html", "w") as f:
+        f.write(create_about_page())
+    
+    with open("contact.html", "w") as f:
+        f.write(create_contact_page())
+    
+    with open("admin-config.js", "w") as f:
+        f.write(create_admin_config())
+    
+    print(f"Generated {len(new_articles)} articles")
+    print(f"Total: {len(all_articles)}")
+    print("Done!")
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())ervations.",
             "Stakeholders holding stakes gathered to discuss their stake-holding strategies.",
             "Focus groups focused while control groups controlled, results remain inconclusive.",
         ],
