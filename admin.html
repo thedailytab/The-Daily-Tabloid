@@ -1,20 +1,9 @@
-# Complete Admin Control Panel System
-
-This creates a unified admin system with a dashboard and login that works site-wide.
-
----
-
-## FILE 1: admin.html (Complete Rewrite)
-
-Replace your entire admin.html with this:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Control Panel - The Tabloid Times</title>
+<title>Admin Control Panel - The Tabloid Daily News</title>
 <style>
 * {margin: 0; padding: 0; box-sizing: border-box;}
 body {font-family: Georgia, serif; background: #f5f5f5; padding: 0;}
@@ -33,3 +22,82 @@ body {font-family: Georgia, serif; background: #f5f5f5; padding: 0;}
 .admin-header h1 {margin-bottom: 5px;}
 .admin-header .site-link {color: #c00; text-decoration: none; font-size: 0.9em;}
 .admin-header .logout-btn {float: right; background: #c00; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;}
+.admin-header .logout-btn:hover {background: #900;}
+
+.admin-content {display: flex; min-height: calc(100vh - 80px);}
+
+/* Sidebar Navigation */
+.admin-sidebar {width: 250px; background: #2c2c2c; color: white; padding: 20px 0;}
+.admin-sidebar .nav-item {padding: 15px 20px; cursor: pointer; border-left: 3px solid transparent; transition: all 0.3s;}
+.admin-sidebar .nav-item:hover {background: #3c3c3c; border-left-color: #c00;}
+.admin-sidebar .nav-item.active {background: #3c3c3c; border-left-color: #c00;}
+.admin-sidebar .nav-icon {margin-right: 10px;}
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div class="login-container" id="loginScreen">
+    <h1>Admin Login</h1>
+    <form class="login-form" id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+        <div class="error" id="errorMsg">Invalid username or password</div>
+    </form>
+</div>
+
+<!-- Admin Dashboard (hidden by default) -->
+<div class="admin-container" id="adminDashboard">
+    <div class="admin-header">
+        <h1>Admin Control Panel</h1>
+        <a href="../index.html" class="site-link">Back to Site</a>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+    <div class="admin-content">
+        <h2>Welcome, <span id="adminName"></span>!</h2>
+        <p>Use this dashboard to manage articles, headlines, etc.</p>
+        <!-- Add your admin features here -->
+    </div>
+</div>
+
+<script>
+// Load credentials from GitHub secrets (injected during build/deploy)
+const ADMIN_USERNAME = window.ADMIN_USERNAME || 'admin';  // Fallback for local testing
+const ADMIN_PASSWORD = window.ADMIN_PASSWORD || 'password';  // Fallback for local testing
+
+// Warning in console if running locally
+if (!window.GITHUB_ACTIONS) {
+    console.warn("Local testing: Using fallback credentials. In production, use GitHub secrets.");
+}
+
+// Show admin name on dashboard
+document.getElementById("adminName").textContent = ADMIN_USERNAME;
+
+// Login handling
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("adminDashboard").style.display = "block";
+        document.getElementById("errorMsg").style.display = "none";
+    } else {
+        document.getElementById("errorMsg").style.display = "block";
+    }
+});
+
+// Logout function
+function logout() {
+    document.getElementById("loginScreen").style.display = "block";
+    document.getElementById("adminDashboard").style.display = "none";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("errorMsg").style.display = "none";
+}
+</script>
+
+</body>
+</html>
