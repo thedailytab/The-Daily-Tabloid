@@ -98,6 +98,106 @@ p{{line-height:1.8;margin:15px 0}}
 <p><a href="../index.html" style="color:#c00">← Back</a></p>
 </div>
 </body>
+</html>"""import os
+import json
+import requests
+from datetime import datetime, timezone, timedelta
+import re
+import sys
+import random
+import hashlib
+
+API_KEY = os.environ.get("NEWS_API_KEY", "")
+ARCHIVE = "archive.json"
+
+def get_cst_time():
+    cst = timezone(timedelta(hours=-6))
+    return datetime.now(cst)
+
+def load_archive():
+    if os.path.exists(ARCHIVE):
+        with open(ARCHIVE, "r") as f:
+            return json.load(f)
+    return []
+
+def save_archive(data):
+    with open(ARCHIVE, "w") as f:
+        json.dump(data, f, indent=2)
+
+def fetch_news():
+    if not API_KEY:
+        return ["Cat Elected Mayor", "Man Wins Lottery"]
+    try:
+        url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_KEY}"
+        resp = requests.get(url, timeout=10)
+        data = resp.json()
+        if "articles" in data:
+            titles = [a["title"] for a in data["articles"][:10] if a.get("title")]
+            return random.sample(titles, min(2, len(titles)))
+    except:
+        pass
+    return ["Breaking News", "Story Develops"]
+
+def make_slug(text):
+    return re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-')[:50]
+
+def get_image(headline):
+    colors = ['FF6B6B', '4ECDC4', '45B7D1', 'FFA07A']
+    color = colors[abs(hash(headline)) % len(colors)]
+    return f"https://via.placeholder.com/1200x600/{color}/FFF?text=News"
+
+def make_article(headline):
+    subject = headline.lower()
+    content = f"""<p><strong>BREAKING:</strong> Sources confirm {subject}.</p>
+<p>"This is definitely happening," said Captain Obvious.</p>
+<p>Experts remain divided about everything.</p>
+<p>More updates probably coming soon.</p>"""
+    
+    title = headline.upper() + " - EXCLUSIVE"
+    slug = make_slug(headline) + ".html"
+    date = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
+    img = get_image(headline)
+    
+    url = f"https://thedailytab.github.io/The-Daily-Tabloid/articles/{slug}"
+    share_title = headline.replace(' ', '%20')
+    
+    html = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{title}</title>
+<style>
+body{{font-family:Georgia,serif;background:#f5f5f5;margin:0;padding:20px}}
+nav{{background:#333;padding:15px;margin-bottom:20px}}
+nav a{{color:#fff;text-decoration:none;padding:10px 15px}}
+.logo{{color:#c00;font-weight:bold}}
+.main{{max-width:800px;margin:0 auto;background:#fff;padding:40px}}
+h1{{color:#c00;font-size:2em}}
+img{{width:100%;margin:20px 0}}
+p{{line-height:1.8;margin:15px 0}}
+.share{{margin:30px 0;text-align:center}}
+.btn{{display:inline-block;padding:10px 20px;margin:5px;background:#1DA1F2;color:#fff;text-decoration:none;border-radius:5px}}
+</style>
+</head>
+<body>
+<nav>
+<a href="../index.html" class="logo">The Tabloid Times</a>
+<a href="../about.html">About</a>
+<a href="../contact.html">Contact</a>
+<a href="../admin.html">Admin</a>
+</nav>
+<div class="main">
+<h1>{title}</h1>
+<p style="color:#666">{date}</p>
+<img src="{img}" alt="News">
+{content}
+<div class="share">
+<a href="https://twitter.com/intent/tweet?text={share_title}&url={url}" class="btn">Share on X</a>
+<a href="https://facebook.com/sharer/sharer.php?u={url}" class="btn" style="background:#1877F2">Facebook</a>
+</div>
+<p><a href="../index.html" style="color:#c00">← Back</a></p>
+</div>
+</body>
 </html>"""
     
     return {"title": title, "slug": slug, "date": date, "html": html, "image": img}
@@ -106,7 +206,8 @@ def make_homepage(articles):
     now = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
     items = ""
     for a in articles:
-        items += f'<div class="story"><a href="articles/{a["slug"]}"><img src="{a["image"]}"></a><h2><a href="articles/{a["slug"]}">{a["title"]}</a></h2><p>{a["date"]}</p></div>'
+        img = a.get("image", "https://via.placeholder.com/800x400/FF6B6B/FFF?text=News")
+        items += f'<div class="story"><a href="articles/{a["slug"]}"><img src="{img}"></a><h2><a href="articles/{a["slug"]}">{a["title"]}</a></h2><p>{a["date"]}</p></div>'
     
     return f"""<!DOCTYPE html>
 <html>
