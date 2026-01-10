@@ -544,3 +544,5 @@ Share on X
 Share on Facebook
 </a>
 <a href="https://www.linkedin.com/sharing/share-offsite/?url={encoded_url}" target="_b
+if __name__ == "__main__":
+    sys.exit(main())
