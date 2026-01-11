@@ -50,56 +50,77 @@ def get_image(headline):
 def make_article(headline):
     subject = headline.lower()
     
-    # Generate unique roast content
-    roasts = [
-        f"Oh great, another thrilling update: {subject}. I'm sure this will change your life forever. Spoiler alert: it won't.",
-        f"Breaking news that absolutely nobody asked for: {subject}. You're welcome for wasting 30 seconds of your day.",
-        f"Hold the phone, folks: {subject}. And by 'hold the phone,' I mean put it down and go do literally anything else.",
-        f"In news that will shock exactly zero people: {subject}. Moving on.",
-        f"Alert the media! Oh wait, they already know: {subject}. And they're as unimpressed as you are.",
-        f"Stop the presses for this earth-shattering development: {subject}. Just kidding, the presses stopped caring hours ago.",
-        f"Here's something that happened: {subject}. Was it interesting? Debatable. Did we report it anyway? Obviously.",
-        f"Exclusive scoop that you could've found on literally any news site: {subject}. But hey, you're here now.",
-        f"In today's episode of 'Things That Technically Happened': {subject}. Tune in tomorrow for more riveting updates.",
-        f"Brace yourself for this mind-blowing revelation: {subject}. And by mind-blowing, I mean incredibly predictable.",
+    # Stand-up comedy openings
+    openings = [
+        f"So you guys hear about this? {subject}. I mean, are you kidding me?",
+        f"Alright, alright, settle down. So apparently {subject}. Yeah, I'll wait while you process that nonsense.",
+        f"You know what I love? When {subject}. Said nobody ever.",
+        f"Can we talk about this for a second? {subject}. I mean, who comes up with this stuff?",
+        f"Okay, real talk: {subject}. And I'm supposed to act like this is normal?",
+        f"Ladies and gentlemen, breaking news: {subject}. And the crowd goes mild!",
+        f"So get this - {subject}. No seriously, I'm not making this up. I wish I was.",
+        f"You're gonna love this one: {subject}. Actually, no you won't. Nobody does.",
+        f"Alright, story time: {subject}. Are you ready for this level of absurdity?",
+        f"Hold on, hold on. So {subject}. Yeah. That's where we are as a society.",
     ]
     
-    middle_roasts = [
-        "Experts who are definitely real and not made up claim this is 'a thing that occurred.' Groundbreaking analysis, truly.",
-        "Anonymous sources, who wish to remain anonymous because they value their reputation, confirm that yes, this happened.",
-        "Industry insiders report they have insider knowledge about being inside the industry. Very insightful.",
-        "Witnesses at the scene witnessed things at the scene where things were happening. Journalism at its finest.",
-        "Social media erupted with the usual mixture of outrage, confusion, and people asking 'who cares?' Spoiler: nobody.",
-        "Political figures from both sides immediately used this to support whatever nonsense they were already peddling.",
-        "Analysts analyzed the situation analytically, concluding that analysis was needed. We need better analysts.",
-        "Breaking: people had opinions about this. Those opinions ranged from 'meh' to 'super meh.' Democracy in action.",
-        "The public responded with a collective shrug heard 'round the world. Or not heard. Because shrugs are silent.",
-        "Think tanks thought about things in their tanks while the rest of us wondered why we're still reading this.",
+    # Comedy bits and observations
+    bits = [
+        "And of course, the 'experts' weighed in. You know, those people who are experts in having opinions about everything. Real helpful, guys.",
+        "Social media had a meltdown, naturally. Because that's what we do now. Something happens, we panic-tweet. It's very productive.",
+        "My favorite part? The people who said 'I saw this coming.' Really? You saw THIS coming? Then why didn't you warn the rest of us?",
+        "Sources say they're 'monitoring the situation.' Translation: we have no idea what's happening but we're watching it happen.",
+        "Witnesses described it as 'shocking.' Which is code for 'we literally can't believe we have to report on this.'",
+        "Political figures rushed to make statements. Both sides. Saying opposite things. As usual. It's like watching a tennis match of terrible takes.",
+        "One analyst called it 'unprecedented.' You know what else is unprecedented? Using the word unprecedented for every single thing that happens.",
+        "They released a statement. A whole statement! Full of words that said absolutely nothing. It's an art form, really.",
+        "The internet did what the internet does best: argued about it. Pro tip: nobody won. Nobody ever wins internet arguments.",
+        "Experts predict this will have 'far-reaching implications.' Yeah, it'll reach far... into next week when everyone forgets about it.",
+        "Someone called it 'a wake-up call.' Folks, if this is your wake-up call, you've been asleep for YEARS.",
+        "They say it 'raises important questions.' The only question I have is: why am I still talking about this?",
+        "Insiders claim they 'always knew.' Congrats on your hindsight, insiders. Super impressive.",
+        "The official response was to 'look into it.' You know what that means? Nothing. That means absolutely nothing.",
+        "People are demanding action. Which people? The same people who'll forget this happened by dinner time.",
     ]
     
-    endings = [
-        "This story will develop until everyone forgets about it. Estimated time: 6 minutes.",
-        "Updates will follow if anything remotely interesting happens. Don't hold your breath.",
-        "The Tabloid Times will continue coverage until something shinier catches our attention.",
-        "In conclusion: stuff happened, people talked, nobody cared. See you tomorrow for more of the same.",
-        "Stay tuned for our follow-up piece: 'Why This Story Doesn't Matter and Never Did.'",
-        "This has been your daily dose of news you didn't need. You're welcome.",
-        "And that's the way the cookie crumbles when nobody wanted cookies in the first place.",
-        "More developments as they develop. Or don't. We'll report it either way.",
-        "Check back never for updates on a story we've already forgotten about.",
-        "The Tabloid Times: Making you question your life choices since 2026.",
+    # Comedy closers
+    closers = [
+        "And that, ladies and gentlemen, is what passes for news these days. You're welcome for that migraine.",
+        "So yeah, that happened. Will it matter tomorrow? Nope. Am I gonna keep talking about it? Also nope. Moving on!",
+        "In conclusion: humans are weird, news is weirder, and I need a drink. Thank you, you've been a lovely audience!",
+        "Anyway, that's my time. Remember: none of this matters and we're all gonna die someday. Goodnight!",
+        "And that's the story. Was it worth your time? Debatable. Will I do it again tomorrow? Absolutely. I got bills to pay.",
+        "So there you have it. Another day, another ridiculous headline. If you need me, I'll be questioning my life choices.",
+        "And scene! That was today's episode of 'What The Heck Is Happening.' Tune in tomorrow for more chaos.",
+        "Alright, I'm done. You guys have been great. The news has been terrible. Balance, you know?",
+        "That's all I got for you today, folks. Same time tomorrow? Yeah, probably. This stuff writes itself.",
+        "And with that, I bid you adieu. May your day be better than this news story. Low bar, but still.",
     ]
     
-    opening = random.choice(roasts)
-    middle = random.sample(middle_roasts, 3)
-    ending = random.choice(endings)
+    # Build the stand-up routine
+    opening = random.choice(openings)
+    middle_bits = random.sample(bits, random.randint(4, 6))
+    closer = random.choice(closers)
     
-    content = f"<p><strong>BREAKING:</strong> {opening}</p>"
-    for m in middle:
-        content += f"<p>{m}</p>"
-    content += f"<p>{ending}</p>"
+    # Add crowd work and callbacks
+    crowd_work = [
+        "You guys are laughing, but this is REAL. This actually happened. We live in a simulation, I swear.",
+        "I can see some of you nodding. Yeah, you get it. You've seen the madness too.",
+        "Some of you look confused. Don't worry, I'm confused too. We're all confused. Welcome to the club.",
+        "That guy in the back is on his phone. Sir, this is important! Just kidding, it's not. Keep scrolling.",
+    ]
     
-    title = headline.upper() + " - EXCLUSIVE"
+    content = f"<p><strong>{opening}</strong></p>"
+    content += f"<p>{random.choice(crowd_work)}</p>"
+    
+    for bit in middle_bits:
+        content += f"<p>{bit}</p>"
+    
+    # Add a callback to the headline
+    content += f"<p>But seriously, think about it: {subject}. That's the world we're living in. Let that sink in.</p>"
+    content += f"<p>{closer}</p>"
+    
+    title = headline.upper() + " - COMEDY SPECIAL"
     slug = make_slug(headline) + ".html"
     date = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
     img = get_image(headline)
@@ -117,12 +138,14 @@ body{{font-family:Georgia,serif;background:#f5f5f5;margin:0;padding:20px}}
 nav{{background:#333;padding:15px;margin-bottom:20px}}
 nav a{{color:#fff;text-decoration:none;padding:10px 15px}}
 .logo{{color:#c00;font-weight:bold}}
-.main{{max-width:800px;margin:0 auto;background:#fff;padding:40px}}
-h1{{color:#c00;font-size:2em}}
-img{{width:100%;margin:20px 0;border-radius:8px}}
-p{{line-height:1.8;margin:15px 0;font-size:1.1em}}
-.share{{margin:30px 0;text-align:center}}
-.btn{{display:inline-block;padding:10px 20px;margin:5px;background:#1DA1F2;color:#fff;text-decoration:none;border-radius:5px}}
+.main{{max-width:800px;margin:0 auto;background:#fff;padding:40px;border-left:5px solid #c00}}
+h1{{color:#c00;font-size:2em;line-height:1.3}}
+.comedy-tag{{background:#c00;color:#fff;padding:8px 16px;display:inline-block;margin:10px 0;font-size:0.9em;border-radius:4px}}
+img{{width:100%;margin:20px 0;border-radius:8px;border:3px solid #c00}}
+p{{line-height:1.9;margin:20px 0;font-size:1.15em;font-style:italic}}
+p strong{{font-size:1.2em;color:#c00;font-style:normal}}
+.share{{margin:40px 0;text-align:center;padding:30px;background:#f9f9f9;border-radius:8px}}
+.btn{{display:inline-block;padding:12px 24px;margin:5px;background:#1DA1F2;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold}}
 </style>
 </head>
 <body>
@@ -133,15 +156,18 @@ p{{line-height:1.8;margin:15px 0;font-size:1.1em}}
 <a href="../admin.html">Admin</a>
 </nav>
 <div class="main">
+<div class="comedy-tag">🎤 STAND-UP COMEDY</div>
 <h1>{title}</h1>
-<p style="color:#666">{date}</p>
+<p style="color:#666;font-style:normal">{date}</p>
 <img src="{img}" alt="Breaking News">
 {content}
 <div class="share">
+<h3 style="margin-bottom:20px">Share This Comedy Bit</h3>
 <a href="https://twitter.com/intent/tweet?text={share_title}&url={url}" class="btn">Share on X</a>
-<a href="https://facebook.com/sharer/sharer.php?u={url}" class="btn" style="background:#1877F2">Facebook</a>
+<a href="https://facebook.com/sharer/sharer.php?u={url}" class="btn" style="background:#1877F2">Share on Facebook</a>
+<a href="https://reddit.com/submit?url={url}&title={share_title}" class="btn" style="background:#FF4500">Share on Reddit</a>
 </div>
-<p><a href="../index.html" style="color:#c00">← Back</a></p>
+<p style="text-align:center;font-style:normal"><a href="../index.html" style="color:#c00;font-weight:bold">← Back to More Comedy</a></p>
 </div>
 </body>
 </html>"""
