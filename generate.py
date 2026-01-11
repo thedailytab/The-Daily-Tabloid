@@ -152,18 +152,27 @@ footer{{text-align:center;padding:40px;color:#666;border-top:3px solid #c00}}
 </html>"""
 
 def make_about():
-    return """<!DOCTYPE html>
+    # Check if custom about content exists in a file
+    custom_about_file = "about_custom.txt"
+    if os.path.exists(custom_about_file):
+        with open(custom_about_file, "r", encoding="utf-8") as f:
+            custom_content = f.read()
+    else:
+        custom_content = "AI-powered satirical news. Nothing is real!"
+    
+    return f"""<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>About</title>
 <style>
-body{font-family:Georgia,serif;background:#f5f5f5;margin:0}
-nav{background:#333;padding:15px}
-nav a{color:#fff;text-decoration:none;padding:10px 15px}
-.logo{color:#c00}
-.main{max-width:800px;margin:40px auto;background:#fff;padding:40px}
-h1{color:#c00}
+body{{font-family:Georgia,serif;background:#f5f5f5;margin:0}}
+nav{{background:#333;padding:15px}}
+nav a{{color:#fff;text-decoration:none;padding:10px 15px}}
+.logo{{color:#c00}}
+.main{{max-width:800px;margin:40px auto;background:#fff;padding:40px}}
+h1{{color:#c00}}
+p{{line-height:1.8;margin:15px 0}}
 </style>
 </head>
 <body>
@@ -174,8 +183,8 @@ h1{color:#c00}
 <a href="admin.html">Admin</a>
 </nav>
 <div class="main">
-<h1>About</h1>
-<p>AI-powered satirical news. Nothing is real!</p>
+<h1>About The Tabloid Times</h1>
+{custom_content}
 </div>
 </body>
 </html>"""
