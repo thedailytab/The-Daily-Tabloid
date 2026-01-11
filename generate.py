@@ -42,85 +42,89 @@ def make_slug(text):
     return re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-')[:50]
 
 def get_image(headline):
-    colors = ['FF6B6B', '4ECDC4', '45B7D1', 'FFA07A', '98D8C8', 'F7DC6F', 'BB8FCE', '85C1E2']
-    color = colors[abs(hash(headline)) % len(colors)]
-    # Use a more reliable image service
-    return f"https://placehold.co/1200x600/{color}/ffffff?text=BREAKING+NEWS"
+    # Use Pexels API for real, relevant images
+    # Extract keywords from headline for better image matching
+    words = headline.lower().split()
+    # Remove common words
+    stopwords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'from']
+    keywords = [w for w in words if w not in stopwords and len(w) > 3]
+    
+    # Take first 2-3 meaningful words
+    search_term = '+'.join(keywords[:3]) if keywords else 'news'
+    
+    # Use Unsplash API (no key required for basic use)
+    return f"https://source.unsplash.com/1200x600/?{search_term}"
 
 def make_article(headline):
-    subject = headline.lower()
+    # Generate genuinely funny, unpredictable content
+    # Each style is completely different
     
-    # Stand-up comedy openings
-    openings = [
-        f"So you guys hear about this? {subject}. I mean, are you kidding me?",
-        f"Alright, alright, settle down. So apparently {subject}. Yeah, I'll wait while you process that nonsense.",
-        f"You know what I love? When {subject}. Said nobody ever.",
-        f"Can we talk about this for a second? {subject}. I mean, who comes up with this stuff?",
-        f"Okay, real talk: {subject}. And I'm supposed to act like this is normal?",
-        f"Ladies and gentlemen, breaking news: {subject}. And the crowd goes mild!",
-        f"So get this - {subject}. No seriously, I'm not making this up. I wish I was.",
-        f"You're gonna love this one: {subject}. Actually, no you won't. Nobody does.",
-        f"Alright, story time: {subject}. Are you ready for this level of absurdity?",
-        f"Hold on, hold on. So {subject}. Yeah. That's where we are as a society.",
+    styles = [
+        # Style 1: Absurdist news report
+        lambda h: f"""<p>URGENT: Local reality has temporarily malfunctioned. Officials confirm that {h.lower()} which, according to physics, shouldn't even be possible.</p>
+<p>Dr. Gerald Fumblestick, who has never been right about anything, declared this "probably fine" while his lab coat was on fire.</p>
+<p>"I've seen weirder things," claimed a man who definitely hasn't. "Like that time a potato became sentient. Wait, that didn't happen either."</p>
+<p>The event attracted exactly three onlookers, two of whom were pigeons, and one who was deeply confused about where they parked.</p>
+<p>In response, the government has decided to do what it does best: form a committee to discuss forming another committee.</p>
+<p>Local Karen, who always has something to say, said something. We didn't write it down because honestly, who cares.</p>
+<p>Scientists are baffled. But let's be real, scientists are always baffled. That's literally their whole thing.</p>
+<p>This story will be forgotten by lunch. We're having tacos. You're not invited.</p>""",
+        
+        # Style 2: Conspiracy theorist's dream
+        lambda h: f"""<p>THEY DON'T WANT YOU TO KNOW THIS: {h.lower()} - and it's ALL connected, man.</p>
+<p>Wake up, sheeple! This is clearly related to that thing from 1987 that nobody remembers because it didn't happen.</p>
+<p>One "anonymous insider" (who is definitely just some guy named Derek) leaked documents written in crayon claiming "the truth is out there." The truth is that Derek needs a hobby.</p>
+<p>Coincidence? I THINK NOT. Also coincidentally, I failed statistics class three times.</p>
+<p>If you rearrange the letters in "{h.lower()}" you get... well, you get those same letters in a different order. SUSPICIOUS.</p>
+<p>The mainstream media won't cover this angle because they're too busy covering, you know, actual news.</p>
+<p>Follow the money! Which leads to... a Wendy's parking lot. Huh. That's weird.</p>
+<p>Stay woke. Or don't. Sleep is nice too. Actually, yeah, just get some sleep.</p>""",
+        
+        # Style 3: Old man yelling at cloud
+        lambda h: f"""<p>BACK IN MY DAY we didn't have {h.lower()}. And we were FINE.</p>
+<p>Now everyone's got their phones out, taking pictures, sharing it on the TikToks or whatever. Nobody talks anymore!</p>
+<p>"It's unprecedented," they say. You know what was unprecedented? Walking uphill both ways to school in the snow. With wolves!</p>
+<p>These young people today don't know how good they have it. We had to deal with actual problems, like... um... well I can't remember, but they were HARD.</p>
+<p>And another thing - why is everyone so sensitive now? In my day, we just bottled up our emotions and developed weird personality quirks like normal people.</p>
+<p>Mark my words, this'll blow over. Just like that internet thing. Whatever happened to that?</p>
+<p>Now get off my lawn. I'm tired. Being angry is exhausting.</p>""",
+        
+        # Style 4: Overly dramatic Shakespeare
+        lambda h: f"""<p>HARK! What light through yonder news break? 'Tis {h.lower()}, and the masses art shooketh.</p>
+<p>To care, or not to care? That is the question. The answer is: probably not, but we're here anyway.</p>
+<p>Methinks the lady doth protest too much about something completely unrelated. She really needs to stay on topic.</p>
+<p>A pox upon this news! Though honestly, we're running low on poxes. Budget cuts, you understand.</p>
+<p>The fault, dear reader, lies not in our stars, but in ourselves. And also in whoever decided this was newsworthy.</p>
+<p>Friends, Romans, countrymen, lend me your ears! Actually, keep your ears. I was just being dramatic.</p>
+<p>All the world's a stage, and this story is definitely not winning any Tonys.</p>
+<p>Thus concludes our tale. *Takes dramatic bow* *Trips on own cape*</p>""",
+        
+        # Style 5: Sports commentary
+        lambda h: f"""<p>AND HERE WE GO FOLKS! In a stunning display of things happening, {h.lower()}!</p>
+<p>The crowd goes MILD! They're on their feet... to leave! What a moment!</p>
+<p>"This changes everything," claims literally nobody with credibility. But you know what? That's never stopped us before!</p>
+<p>Let's go to our expert analyst, Chad Broseph: "Yeah, uh, this is definitely a thing that occurred." Brilliant analysis, Chad.</p>
+<p>INSTANT REPLAY: Yep, still happened. Still don't understand it. Moving on!</p>
+<p>The opposing team has called a timeout to discuss their feelings. Very progressive, team. Very progressive.</p>
+<p>With only seconds remaining in this news cycle, can anyone actually care enough to finish reading this? The answer may surprise you! (It won't.)</p>
+<p>That's gonna be a MISS from the relevance meter! Better luck next time, story!</p>""",
+        
+        # Style 6: Nature documentary narrator
+        lambda h: f"""<p>*David Attenborough voice* Here, in its natural habitat, we observe {h.lower()}.</p>
+<p>Remarkable. The wild headline stalks its prey - your attention span - with calculated precision.</p>
+<p>Watch as the news reporters gather, their camera shutters clicking in a symphony of manufactured urgency.</p>
+<p>The alpha male of the group attempts to establish dominance by having the loudest opinion. It is... not working.</p>
+<p>Fascinating. The herd mentality takes over as social media users copy and paste the same take seventeen thousand times.</p>
+<p>Nature is truly... very stupid sometimes.</p>
+<p>And here comes a predator - fact-checkers! The headline scatters, seeking refuge in alternative facts.</p>
+<p>The circle of news continues. Tomorrow, none of this will matter. Such is the way of things.</p>""",
     ]
     
-    # Comedy bits and observations
-    bits = [
-        "And of course, the 'experts' weighed in. You know, those people who are experts in having opinions about everything. Real helpful, guys.",
-        "Social media had a meltdown, naturally. Because that's what we do now. Something happens, we panic-tweet. It's very productive.",
-        "My favorite part? The people who said 'I saw this coming.' Really? You saw THIS coming? Then why didn't you warn the rest of us?",
-        "Sources say they're 'monitoring the situation.' Translation: we have no idea what's happening but we're watching it happen.",
-        "Witnesses described it as 'shocking.' Which is code for 'we literally can't believe we have to report on this.'",
-        "Political figures rushed to make statements. Both sides. Saying opposite things. As usual. It's like watching a tennis match of terrible takes.",
-        "One analyst called it 'unprecedented.' You know what else is unprecedented? Using the word unprecedented for every single thing that happens.",
-        "They released a statement. A whole statement! Full of words that said absolutely nothing. It's an art form, really.",
-        "The internet did what the internet does best: argued about it. Pro tip: nobody won. Nobody ever wins internet arguments.",
-        "Experts predict this will have 'far-reaching implications.' Yeah, it'll reach far... into next week when everyone forgets about it.",
-        "Someone called it 'a wake-up call.' Folks, if this is your wake-up call, you've been asleep for YEARS.",
-        "They say it 'raises important questions.' The only question I have is: why am I still talking about this?",
-        "Insiders claim they 'always knew.' Congrats on your hindsight, insiders. Super impressive.",
-        "The official response was to 'look into it.' You know what that means? Nothing. That means absolutely nothing.",
-        "People are demanding action. Which people? The same people who'll forget this happened by dinner time.",
-    ]
+    # Pick a random style
+    style_func = random.choice(styles)
+    content = style_func(headline)
     
-    # Comedy closers
-    closers = [
-        "And that, ladies and gentlemen, is what passes for news these days. You're welcome for that migraine.",
-        "So yeah, that happened. Will it matter tomorrow? Nope. Am I gonna keep talking about it? Also nope. Moving on!",
-        "In conclusion: humans are weird, news is weirder, and I need a drink. Thank you, you've been a lovely audience!",
-        "Anyway, that's my time. Remember: none of this matters and we're all gonna die someday. Goodnight!",
-        "And that's the story. Was it worth your time? Debatable. Will I do it again tomorrow? Absolutely. I got bills to pay.",
-        "So there you have it. Another day, another ridiculous headline. If you need me, I'll be questioning my life choices.",
-        "And scene! That was today's episode of 'What The Heck Is Happening.' Tune in tomorrow for more chaos.",
-        "Alright, I'm done. You guys have been great. The news has been terrible. Balance, you know?",
-        "That's all I got for you today, folks. Same time tomorrow? Yeah, probably. This stuff writes itself.",
-        "And with that, I bid you adieu. May your day be better than this news story. Low bar, but still.",
-    ]
-    
-    # Build the stand-up routine
-    opening = random.choice(openings)
-    middle_bits = random.sample(bits, random.randint(4, 6))
-    closer = random.choice(closers)
-    
-    # Add crowd work and callbacks
-    crowd_work = [
-        "You guys are laughing, but this is REAL. This actually happened. We live in a simulation, I swear.",
-        "I can see some of you nodding. Yeah, you get it. You've seen the madness too.",
-        "Some of you look confused. Don't worry, I'm confused too. We're all confused. Welcome to the club.",
-        "That guy in the back is on his phone. Sir, this is important! Just kidding, it's not. Keep scrolling.",
-    ]
-    
-    content = f"<p><strong>{opening}</strong></p>"
-    content += f"<p>{random.choice(crowd_work)}</p>"
-    
-    for bit in middle_bits:
-        content += f"<p>{bit}</p>"
-    
-    # Add a callback to the headline
-    content += f"<p>But seriously, think about it: {subject}. That's the world we're living in. Let that sink in.</p>"
-    content += f"<p>{closer}</p>"
-    
-    title = headline.upper() + " - COMEDY SPECIAL"
+    title = headline.upper() + " - " + random.choice(["EXCLUSIVE", "BREAKING", "DEVELOPING", "SHOCKING", "UNBELIEVABLE"])
     slug = make_slug(headline) + ".html"
     date = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
     img = get_image(headline)
@@ -138,14 +142,21 @@ body{{font-family:Georgia,serif;background:#f5f5f5;margin:0;padding:20px}}
 nav{{background:#333;padding:15px;margin-bottom:20px}}
 nav a{{color:#fff;text-decoration:none;padding:10px 15px}}
 .logo{{color:#c00;font-weight:bold}}
-.main{{max-width:800px;margin:0 auto;background:#fff;padding:40px;border-left:5px solid #c00}}
+.main{{max-width:800px;margin:0 auto;background:#fff;padding:40px}}
 h1{{color:#c00;font-size:2em;line-height:1.3}}
-.comedy-tag{{background:#c00;color:#fff;padding:8px 16px;display:inline-block;margin:10px 0;font-size:0.9em;border-radius:4px}}
-img{{width:100%;margin:20px 0;border-radius:8px;border:3px solid #c00}}
-p{{line-height:1.9;margin:20px 0;font-size:1.15em;font-style:italic}}
-p strong{{font-size:1.2em;color:#c00;font-style:normal}}
+img{{width:100%;margin:20px 0;border-radius:8px}}
+p{{line-height:1.9;margin:20px 0;font-size:1.15em}}
 .share{{margin:40px 0;text-align:center;padding:30px;background:#f9f9f9;border-radius:8px}}
 .btn{{display:inline-block;padding:12px 24px;margin:5px;background:#1DA1F2;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold}}
+.comments{{margin:40px 0;padding:30px;background:#fff;border-top:3px solid #c00}}
+.comment-form{{margin-bottom:30px}}
+.comment-form input,.comment-form textarea{{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:4px;font-family:Georgia,serif}}
+.comment-form button{{background:#c00;color:#fff;padding:12px 30px;border:none;border-radius:4px;cursor:pointer;font-weight:bold}}
+.comment{{background:#f9f9f9;padding:20px;margin:15px 0;border-radius:8px;border-left:4px solid #c00}}
+.comment-author{{font-weight:bold;color:#c00;margin-bottom:8px}}
+.comment-date{{color:#666;font-size:0.85em;margin-bottom:10px}}
+.comment-text{{line-height:1.6}}
+.no-comments{{text-align:center;color:#666;padding:40px;font-style:italic}}
 </style>
 </head>
 <body>
@@ -156,19 +167,78 @@ p strong{{font-size:1.2em;color:#c00;font-style:normal}}
 <a href="../admin.html">Admin</a>
 </nav>
 <div class="main">
-<div class="comedy-tag">🎤 STAND-UP COMEDY</div>
 <h1>{title}</h1>
-<p style="color:#666;font-style:normal">{date}</p>
-<img src="{img}" alt="Breaking News">
+<p style="color:#666">{date}</p>
+<img src="{img}" alt="Article Image" onerror="this.src='https://placehold.co/1200x600/FF6B6B/ffffff?text=Image+Unavailable'">
 {content}
 <div class="share">
-<h3 style="margin-bottom:20px">Share This Comedy Bit</h3>
+<h3 style="margin-bottom:20px">Share This Insanity</h3>
 <a href="https://twitter.com/intent/tweet?text={share_title}&url={url}" class="btn">Share on X</a>
-<a href="https://facebook.com/sharer/sharer.php?u={url}" class="btn" style="background:#1877F2">Share on Facebook</a>
-<a href="https://reddit.com/submit?url={url}&title={share_title}" class="btn" style="background:#FF4500">Share on Reddit</a>
+<a href="https://facebook.com/sharer/sharer.php?u={url}" class="btn" style="background:#1877F2">Facebook</a>
+<a href="https://reddit.com/submit?url={url}&title={share_title}" class="btn" style="background:#FF4500">Reddit</a>
 </div>
-<p style="text-align:center;font-style:normal"><a href="../index.html" style="color:#c00;font-weight:bold">← Back to More Comedy</a></p>
+<div class="comments">
+<h2 style="color:#c00;margin-bottom:20px">Comments</h2>
+<div class="comment-form">
+<input type="text" id="commentName" placeholder="Your Name" required>
+<input type="email" id="commentEmail" placeholder="Your Email (won't be shown)" required>
+<textarea id="commentText" placeholder="Your thoughts on this ridiculous story..." rows="4" required></textarea>
+<button onclick="postComment()">Post Comment</button>
 </div>
+<div id="commentsList"></div>
+</div>
+<p style="text-align:center"><a href="../index.html" style="color:#c00;font-weight:bold">← Back to More Absurdity</a></p>
+</div>
+<script>
+const ARTICLE_ID = '{slug}';
+const COMMENTS_KEY = 'comments_' + ARTICLE_ID;
+
+function loadComments() {{
+    const comments = JSON.parse(localStorage.getItem(COMMENTS_KEY) || '[]');
+    const container = document.getElementById('commentsList');
+    
+    if (comments.length === 0) {{
+        container.innerHTML = '<div class="no-comments">No comments yet. Be the first to share your thoughts!</div>';
+        return;
+    }}
+    
+    container.innerHTML = comments.map(c => `
+        <div class="comment">
+            <div class="comment-author">${{c.name}}</div>
+            <div class="comment-date">${{c.date}}</div>
+            <div class="comment-text">${{c.text}}</div>
+        </div>
+    `).join('');
+}}
+
+function postComment() {{
+    const name = document.getElementById('commentName').value.trim();
+    const email = document.getElementById('commentEmail').value.trim();
+    const text = document.getElementById('commentText').value.trim();
+    
+    if (!name || !email || !text) {{
+        alert('Please fill in all fields!');
+        return;
+    }}
+    
+    const comments = JSON.parse(localStorage.getItem(COMMENTS_KEY) || '[]');
+    comments.unshift({{
+        name: name,
+        text: text,
+        date: new Date().toLocaleString('en-US', {{timeZone: 'America/Chicago'}})
+    }});
+    
+    localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments));
+    
+    document.getElementById('commentName').value = '';
+    document.getElementById('commentEmail').value = '';
+    document.getElementById('commentText').value = '';
+    
+    loadComments();
+}}
+
+loadComments();
+</script>
 </body>
 </html>"""
     
