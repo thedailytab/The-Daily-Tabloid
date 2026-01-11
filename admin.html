@@ -158,10 +158,19 @@ body {font-family: Georgia, serif; background: #f5f5f5; padding: 0;}
 <!-- About Editor Section -->
 <div class="admin-section" id="about">
 <h2>Edit About Page</h2>
-<p style="margin-bottom: 20px; color: #666;">Edit the content that appears on the About page.</p>
+<p style="margin-bottom: 20px; color: #666;">Edit the About page content below. When you save, a file will download. Upload it to GitHub to make changes live.</p>
 <textarea class="editor-area" id="aboutEditor"></textarea>
-<button class="save-btn" onclick="saveAboutPage()">Save Changes</button>
-<div class="success-msg" id="aboutSuccess">About page updated successfully!</div>
+<button class="save-btn" onclick="saveAboutPage()">Download About Page File</button>
+<div class="success-msg" id="aboutSuccess">File will download! Upload "about_custom.txt" to your GitHub repo, then run the workflow.</div>
+<hr style="margin: 40px 0;">
+<h3>Instructions:</h3>
+<ol style="line-height: 2; margin-left: 20px;">
+<li>Edit the content above (use HTML tags like &lt;p&gt; and &lt;strong&gt;)</li>
+<li>Click "Download About Page File"</li>
+<li>Go to your GitHub repo and upload "about_custom.txt"</li>
+<li>Run the workflow (Actions → Run workflow)</li>
+<li>Your changes will appear on the live site!</li>
+</ol>
 </div>
 
 <!-- Settings Section -->
@@ -169,27 +178,31 @@ body {font-family: Georgia, serif; background: #f5f5f5; padding: 0;}
 <h2>Site Settings</h2>
 
 <div class="setting-group">
-<h3>Change Admin Password</h3>
-<label>New Password:</label>
+<h3>⚠️ Important Note</h3>
+<p style="color: #666; line-height: 1.8;">
+Most site settings are controlled in your GitHub repository files. Changes made here are stored locally in your browser only.
+To make permanent changes visible to all visitors:
+</p>
+<ol style="margin-left: 20px; line-height: 2; color: #666;">
+<li>Edit the files directly in your GitHub repo (generate.py, etc.)</li>
+<li>Or download files from this admin panel and upload to GitHub</li>
+<li>Run the workflow to deploy changes</li>
+</ol>
+</div>
+
+<div class="setting-group">
+<h3>Session Password (Browser Only)</h3>
+<p style="color: #666; margin-bottom: 15px;">Change your login password for this browser session only. Real password is set in GitHub Secrets.</p>
+<label>New Session Password:</label>
 <input type="password" id="newPassword" placeholder="Enter new password">
-<button class="save-btn" onclick="changePassword()">Update Password</button>
-<div class="success-msg" id="passwordSuccess">Password updated! Note: This is stored locally.</div>
+<button class="save-btn" onclick="changePassword()">Update Session Password</button>
+<div class="success-msg" id="passwordSuccess">Session password updated for this browser!</div>
 </div>
 
 <div class="setting-group">
-<h3>Site Information</h3>
-<label>Site Title:</label>
-<input type="text" id="siteTitle" value="The Tabloid Times">
-<label style="margin-top: 15px;">Tagline:</label>
-<input type="text" id="siteTagline" value="SHOCKING NEWS • EXCLUSIVE STORIES • UNBELIEVABLE FACTS">
-<button class="save-btn" onclick="saveSiteSettings()">Save Settings</button>
-<div class="success-msg" id="settingsSuccess">Settings saved!</div>
-</div>
-
-<div class="setting-group">
-<h3>Clear All Data</h3>
-<p style="color: #666; margin-bottom: 15px;">This will clear all messages and local settings. Articles on GitHub will remain.</p>
-<button class="delete-btn" onclick="clearAllData()">Clear All Local Data</button>
+<h3>Clear Browser Data</h3>
+<p style="color: #666; margin-bottom: 15px;">This clears messages and local settings from YOUR browser only. Does not affect the live site.</p>
+<button class="delete-btn" onclick="clearAllData()">Clear My Browser Data</button>
 </div>
 </div>
 
