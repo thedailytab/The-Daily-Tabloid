@@ -10,6 +10,7 @@ body{font-family:Georgia,serif;background:#f5f5f5;padding:20px}
 nav{background:#333;padding:10px;margin-bottom:20px;border-radius:8px}
 nav a{color:#fff;text-decoration:none;padding:8px 12px;display:inline-block}
 .logo{color:#c00;font-weight:bold}
+#userNav{color:#4CAF50;font-weight:bold}
 .container{max-width:800px;margin:20px auto;background:#fff;padding:30px;border-radius:8px}
 h1{color:#c00;margin-bottom:20px}
 h2{color:#333;margin:30px 0 15px 0}
@@ -30,11 +31,106 @@ h2{color:#333;margin:30px 0 15px 0}
 <a href="index.html" class="logo">The Tabloid Times</a>
 <a href="about.html">About</a>
 <a href="contact.html">Contact</a>
+<span id="userNav"></span>
 <a href="admin.html">Admin</a>
 </nav>
 <div class="container">
 <button class="logout-btn" onclick="logout()">Logout</button>
 <h1>My Account</h1>
+<div class="welcome" id="welcome"></div>
+
+<h2>Send Message to User</h2>
+<div class="message-form">
+<input type="text" id="toUser" placeholder="Username" required>
+<textarea id="messageText" placeholder="Your message..." rows="3" required></textarea>
+<button onclick="sendMessage()">Send Message</button>
+</div>
+
+<h2>My Messages</h2>
+<div id="messagesList"></div>
+</div>
+<script>
+function getCurrentUser() {
+    const user = localStorage.getItem('current_user');
+    return user ? JSON.parse(user) : null;
+}
+
+function logout() {
+    localStorage.removeItem('current_user');
+    window.location.href = 'index.html';
+}
+
+function checkAuth() {
+    const user = getCurrentUser();
+    if (!user) {
+        window.location.href = 'login.html';
+        return null;
+    }
+    document.getElementById('welcome').innerHTML = `<strong>Welcome, ${user.username}!</strong>`;
+    document.getElementById('userNav').innerHTML = `<a href="user.html" style="color:#4CAF50">${user.username}</a>`;
+    return user;
+}
+
+function loadMessages() {
+    const user = getCurrentUser();
+    if (!user) return;
+    
+    const users = JSON.parse(localStorage.getItem('users') || '{}');
+    const messages = users[user.username]?.messages || [];
+    
+    const container = document.getElementById('messagesList');
+    if (messages.length === 0) {
+        container.innerHTML = '<div class="no-messages">No messages yet</div>';
+        return;
+    }
+    
+    container.innerHTML = messages.map(m => `
+        <div class="message">
+            <div class="message-from">From: ${m.from}</div>
+            <div class="message-date">${m.date}</div>
+            <div>${m.text}</div>
+        </div>
+    `).join('');
+}
+
+function sendMessage() {
+    const user = getCurrentUser();
+    if (!user) return;
+    
+    const toUser = document.getElementById('toUser').value.trim();
+    const messageText = document.getElementById('messageText').value.trim();
+    
+    if (!toUser || !messageText) {
+        alert('Please fill in both fields');
+        return;
+    }
+    
+    const users = JSON.parse(localStorage.getItem('users') || '{}');
+    
+    if (!users[toUser]) {
+        alert('User not found');
+        return;
+    }
+    
+    if (!users[toUser].messages) users[toUser].messages = [];
+    users[toUser].messages.unshift({
+        from: user.username,
+        text: messageText,
+        date: new Date().toLocaleString('en-US', {timeZone: 'America/Chicago'})
+    });
+    
+    localStorage.setItem('users', JSON.stringify(users));
+    
+    alert('Message sent!');
+    document.getElementById('toUser').value = '';
+    document.getElementById('messageText').value = '';
+}
+
+checkAuth();
+loadMessages();
+</script>
+</body>
+</html><h1>My Account</h1>
 <div class="welcome" id="welcome"></div>
 
 <h2>Send Message to User</h2>
