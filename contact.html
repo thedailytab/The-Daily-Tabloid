@@ -2,15 +2,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>Contact</title>
 <style>
-body{font-family:Georgia,serif;background:#f5f5f5;margin:0}
-nav{background:#333;padding:15px}
-nav a{color:#fff;text-decoration:none;padding:10px 15px}
-.logo{color:#c00}
-.main{max-width:600px;margin:40px auto;background:#fff;padding:40px}
-input,textarea{width:100%;padding:10px;margin:10px 0;border:1px solid #ddd}
-button{background:#c00;color:#fff;padding:15px 30px;border:none;cursor:pointer}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,serif;background:#f5f5f5;margin:0;font-size:16px}
+nav{background:#333;padding:10px}
+nav a{color:#fff;text-decoration:none;padding:8px 12px;font-size:0.9em;display:inline-block}
+.logo{color:#c00;font-weight:bold;display:block;margin-bottom:8px}
+.main{max-width:600px;margin:20px auto;background:#fff;padding:20px;border-radius:8px}
+h1{color:#c00;margin-bottom:15px;font-size:1.8em}
+input,textarea{width:100%;padding:12px;margin:10px 0;border:1px solid #ddd;border-radius:4px;font-family:Georgia,serif;font-size:1em}
+textarea{min-height:120px}
+button{background:#c00;color:#fff;padding:14px;border:none;border-radius:4px;cursor:pointer;width:100%;font-size:1em;font-weight:bold}
+button:active{background:#900}
+.success{background:#4CAF50;color:#fff;padding:15px;margin-bottom:15px;border-radius:4px;display:none}
+@media (min-width: 768px){
+nav{padding:15px}
+nav a{font-size:1em;padding:10px 15px}
+.logo{display:inline-block;margin-bottom:0}
+.main{margin:40px auto;padding:40px}
+h1{font-size:2.5em}
+button{width:auto;padding:14px 30px}
+}
 </style>
 </head>
 <body>
@@ -21,13 +35,13 @@ button{background:#c00;color:#fff;padding:15px 30px;border:none;cursor:pointer}
 <a href="admin.html">Admin</a>
 </nav>
 <div class="main">
-<h1>Contact</h1>
-<div id="msg" style="background:#4CAF50;color:#fff;padding:15px;display:none">Sent!</div>
+<h1>Contact Us</h1>
+<div id="msg" class="success">Message sent!</div>
 <form id="f">
 <input id="n" placeholder="Name" required>
 <input id="e" type="email" placeholder="Email" required>
 <textarea id="m" placeholder="Message" required></textarea>
-<button>Send</button>
+<button type="submit">Send Message</button>
 </form>
 </div>
 <script>
