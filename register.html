@@ -27,6 +27,7 @@ a:hover{text-decoration:underline}
 <a href="index.html" class="logo">The Tabloid Times</a>
 <a href="about.html">About</a>
 <a href="contact.html">Contact</a>
+<a href="login.html">Login</a>
 <a href="admin.html">Admin</a>
 </nav>
 <div class="container">
@@ -35,6 +36,43 @@ a:hover{text-decoration:underline}
 <input type="text" id="username" placeholder="Username" required minlength="3">
 <input type="password" id="password" placeholder="Password" required minlength="6">
 <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+<button type="submit">Register</button>
+</form>
+<div class="error" id="error"></div>
+<div class="success" id="success">Account created! Redirecting to login...</div>
+<p>Already have an account? <a href="login.html">Login here</a></p>
+</div>
+<script>
+document.getElementById('registerForm').onsubmit = function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    
+    if (password !== confirmPassword) {
+        document.getElementById('error').textContent = 'Passwords do not match';
+        document.getElementById('error').style.display = 'block';
+        return;
+    }
+    
+    const users = JSON.parse(localStorage.getItem('users') || '{}');
+    
+    if (users[username]) {
+        document.getElementById('error').textContent = 'Username already exists';
+        document.getElementById('error').style.display = 'block';
+        return;
+    }
+    
+    users[username] = {password: password, messages: []};
+    localStorage.setItem('users', JSON.stringify(users));
+    
+    document.getElementById('success').style.display = 'block';
+    document.getElementById('error').style.display = 'none';
+    setTimeout(() => window.location.href = 'login.html', 1500);
+};
+</script>
+</body>
+</html><input type="password" id="confirmPassword" placeholder="Confirm Password" required>
 <button type="submit">Register</button>
 </form>
 <div class="error" id="error"></div>
