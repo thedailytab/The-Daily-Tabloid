@@ -26,36 +26,44 @@ def save_archive(data):
 
 def fetch_news():
     if not API_KEY:
-        return ["Cat Elected Mayor", "Man Wins Lottery"]
+        return [
+            {"title": "Cat Elected Mayor", "image": None},
+            {"title": "Man Wins Lottery", "image": None}
+        ]
     try:
         url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={API_KEY}"
         resp = requests.get(url, timeout=10)
         data = resp.json()
         if "articles" in data:
-            titles = [a["title"] for a in data["articles"][:10] if a.get("title")]
-            return random.sample(titles, min(2, len(titles)))
+            articles = []
+            for a in data["articles"][:10]:
+                if a.get("title"):
+                    articles.append({
+                        "title": a["title"],
+                        "image": a.get("urlToImage")  # Get the actual article image
+                    })
+            if len(articles) >= 2:
+                return random.sample(articles, 2)
+            return articles[:2]
     except:
         pass
-    return ["Breaking News", "Story Develops"]
+    return [
+        {"title": "Breaking News", "image": None},
+        {"title": "Story Develops", "image": None}
+    ]
 
 def make_slug(text):
     return re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-')[:50]
 
-def get_image(headline):
-    # Use Pexels API for real, relevant images
-    # Extract keywords from headline for better image matching
-    words = headline.lower().split()
-    # Remove common words
-    stopwords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'from']
-    keywords = [w for w in words if w not in stopwords and len(w) > 3]
+def get_image(headline, original_image=None):
+    # Use original article image if available
+    if original_image:
+        return original_image
     
-    # Take first 2-3 meaningful words
-    search_term = '+'.join(keywords[:3]) if keywords else 'news'
-    
-    # Use Unsplash API (no key required for basic use)
-    return f"https://source.unsplash.com/1200x600/?{search_term}"
+    # Fallback: Use site logo
+    return "https://via.placeholder.com/1200x600/c00/ffffff?text=The+Tabloid+Times"
 
-def make_article(headline):
+def make_article(headline, original_image=None):
     # Generate genuinely funny, unpredictable content
     # Each style is completely different
     
@@ -127,7 +135,7 @@ def make_article(headline):
     title = headline.upper() + " - " + random.choice(["EXCLUSIVE", "BREAKING", "DEVELOPING", "SHOCKING", "UNBELIEVABLE"])
     slug = make_slug(headline) + ".html"
     date = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
-    img = get_image(headline)
+    img = get_image(headline, original_image)
     
     url = f"https://thedailytab.github.io/The-Daily-Tabloid/articles/{slug}"
     share_title = headline.replace(' ', '%20')
@@ -263,7 +271,7 @@ def make_homepage(articles):
     now = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
     items = ""
     for a in articles:
-        img = a.get("image", "https://placehold.co/800x400/FF6B6B/ffffff?text=BREAKING+NEWS")
+        img = a.get("image", "https://via.placeholder.com/1200x600/c00/ffffff?text=The+Tabloid+Times")
         items += f'<div class="story"><a href="articles/{a["slug"]}"><img src="{img}" onerror="this.src=\'https://placehold.co/800x400/FF6B6B/ffffff?text=NEWS\'"></a><h2><a href="articles/{a["slug"]}">{a["title"]}</a></h2><p>{a["date"]}</p></div>'
     
     return f"""<!DOCTYPE html>
@@ -451,8 +459,11 @@ def main():
     archive = load_archive()
     new = []
     
-    for h in headlines:
-        art = make_article(h)
+    for article_data in headlines:
+        headline = article_data["title"]
+        original_img = article_data.get("image")
+        
+        art = make_article(headline, original_img)
         new.append({"title": art["title"], "slug": art["slug"], "date": art["date"], "image": art["image"]})
         with open(f"articles/{art['slug']}", "w") as f:
             f.write(art["html"])
