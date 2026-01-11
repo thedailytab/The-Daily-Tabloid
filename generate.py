@@ -42,16 +42,62 @@ def make_slug(text):
     return re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-')[:50]
 
 def get_image(headline):
-    colors = ['FF6B6B', '4ECDC4', '45B7D1', 'FFA07A']
+    colors = ['FF6B6B', '4ECDC4', '45B7D1', 'FFA07A', '98D8C8', 'F7DC6F', 'BB8FCE', '85C1E2']
     color = colors[abs(hash(headline)) % len(colors)]
-    return f"https://via.placeholder.com/1200x600/{color}/FFF?text=News"
+    # Use a more reliable image service
+    return f"https://placehold.co/1200x600/{color}/ffffff?text=BREAKING+NEWS"
 
 def make_article(headline):
     subject = headline.lower()
-    content = f"""<p><strong>BREAKING:</strong> Sources confirm {subject}.</p>
-<p>"This is definitely happening," said Captain Obvious.</p>
-<p>Experts remain divided about everything.</p>
-<p>More updates probably coming soon.</p>"""
+    
+    # Generate unique roast content
+    roasts = [
+        f"Oh great, another thrilling update: {subject}. I'm sure this will change your life forever. Spoiler alert: it won't.",
+        f"Breaking news that absolutely nobody asked for: {subject}. You're welcome for wasting 30 seconds of your day.",
+        f"Hold the phone, folks: {subject}. And by 'hold the phone,' I mean put it down and go do literally anything else.",
+        f"In news that will shock exactly zero people: {subject}. Moving on.",
+        f"Alert the media! Oh wait, they already know: {subject}. And they're as unimpressed as you are.",
+        f"Stop the presses for this earth-shattering development: {subject}. Just kidding, the presses stopped caring hours ago.",
+        f"Here's something that happened: {subject}. Was it interesting? Debatable. Did we report it anyway? Obviously.",
+        f"Exclusive scoop that you could've found on literally any news site: {subject}. But hey, you're here now.",
+        f"In today's episode of 'Things That Technically Happened': {subject}. Tune in tomorrow for more riveting updates.",
+        f"Brace yourself for this mind-blowing revelation: {subject}. And by mind-blowing, I mean incredibly predictable.",
+    ]
+    
+    middle_roasts = [
+        "Experts who are definitely real and not made up claim this is 'a thing that occurred.' Groundbreaking analysis, truly.",
+        "Anonymous sources, who wish to remain anonymous because they value their reputation, confirm that yes, this happened.",
+        "Industry insiders report they have insider knowledge about being inside the industry. Very insightful.",
+        "Witnesses at the scene witnessed things at the scene where things were happening. Journalism at its finest.",
+        "Social media erupted with the usual mixture of outrage, confusion, and people asking 'who cares?' Spoiler: nobody.",
+        "Political figures from both sides immediately used this to support whatever nonsense they were already peddling.",
+        "Analysts analyzed the situation analytically, concluding that analysis was needed. We need better analysts.",
+        "Breaking: people had opinions about this. Those opinions ranged from 'meh' to 'super meh.' Democracy in action.",
+        "The public responded with a collective shrug heard 'round the world. Or not heard. Because shrugs are silent.",
+        "Think tanks thought about things in their tanks while the rest of us wondered why we're still reading this.",
+    ]
+    
+    endings = [
+        "This story will develop until everyone forgets about it. Estimated time: 6 minutes.",
+        "Updates will follow if anything remotely interesting happens. Don't hold your breath.",
+        "The Tabloid Times will continue coverage until something shinier catches our attention.",
+        "In conclusion: stuff happened, people talked, nobody cared. See you tomorrow for more of the same.",
+        "Stay tuned for our follow-up piece: 'Why This Story Doesn't Matter and Never Did.'",
+        "This has been your daily dose of news you didn't need. You're welcome.",
+        "And that's the way the cookie crumbles when nobody wanted cookies in the first place.",
+        "More developments as they develop. Or don't. We'll report it either way.",
+        "Check back never for updates on a story we've already forgotten about.",
+        "The Tabloid Times: Making you question your life choices since 2026.",
+    ]
+    
+    opening = random.choice(roasts)
+    middle = random.sample(middle_roasts, 3)
+    ending = random.choice(endings)
+    
+    content = f"<p><strong>BREAKING:</strong> {opening}</p>"
+    for m in middle:
+        content += f"<p>{m}</p>"
+    content += f"<p>{ending}</p>"
     
     title = headline.upper() + " - EXCLUSIVE"
     slug = make_slug(headline) + ".html"
@@ -73,8 +119,8 @@ nav a{{color:#fff;text-decoration:none;padding:10px 15px}}
 .logo{{color:#c00;font-weight:bold}}
 .main{{max-width:800px;margin:0 auto;background:#fff;padding:40px}}
 h1{{color:#c00;font-size:2em}}
-img{{width:100%;margin:20px 0}}
-p{{line-height:1.8;margin:15px 0}}
+img{{width:100%;margin:20px 0;border-radius:8px}}
+p{{line-height:1.8;margin:15px 0;font-size:1.1em}}
 .share{{margin:30px 0;text-align:center}}
 .btn{{display:inline-block;padding:10px 20px;margin:5px;background:#1DA1F2;color:#fff;text-decoration:none;border-radius:5px}}
 </style>
@@ -89,7 +135,7 @@ p{{line-height:1.8;margin:15px 0}}
 <div class="main">
 <h1>{title}</h1>
 <p style="color:#666">{date}</p>
-<img src="{img}" alt="News">
+<img src="{img}" alt="Breaking News">
 {content}
 <div class="share">
 <a href="https://twitter.com/intent/tweet?text={share_title}&url={url}" class="btn">Share on X</a>
@@ -106,8 +152,8 @@ def make_homepage(articles):
     now = get_cst_time().strftime("%B %d, %Y at %I:%M %p CST")
     items = ""
     for a in articles:
-        img = a.get("image", "https://via.placeholder.com/800x400/FF6B6B/FFF?text=News")
-        items += f'<div class="story"><a href="articles/{a["slug"]}"><img src="{img}"></a><h2><a href="articles/{a["slug"]}">{a["title"]}</a></h2><p>{a["date"]}</p></div>'
+        img = a.get("image", "https://placehold.co/800x400/FF6B6B/ffffff?text=BREAKING+NEWS")
+        items += f'<div class="story"><a href="articles/{a["slug"]}"><img src="{img}" onerror="this.src=\'https://placehold.co/800x400/FF6B6B/ffffff?text=NEWS\'"></a><h2><a href="articles/{a["slug"]}">{a["title"]}</a></h2><p>{a["date"]}</p></div>'
     
     return f"""<!DOCTYPE html>
 <html>
