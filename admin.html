@@ -340,27 +340,43 @@ function removeArticle(index) {
 
 // About Page Editor
 function loadAboutEditor() {
-    const defaultAbout = `Welcome to The Tabloid Times, where truth meets satire and reality takes a coffee break!
-
-We are an AI-powered satirical news site that transforms real headlines into gloriously absurd stories. Our mission is simple: to make you laugh, think, and question everything you read online.
-
-Every story you see here is automatically generated using cutting-edge AI technology, real news headlines, and a healthy dose of creative absurdity. Think of us as The Onion's quirky robot cousin.
-
-**Disclaimer:** Nothing here is real news. It's all satire, parody, and AI-generated silliness. Please don't quote us in your research papers.
-
-New stories are automatically generated several times a day, so check back often for your daily dose of delightful nonsense!`;
-    
-    const saved = localStorage.getItem(ABOUT_KEY) || defaultAbout;
-    document.getElementById('aboutEditor').value = saved;
+    // Try to fetch the current about_custom.txt from the server
+    fetch('about_custom.txt')
+        .then(response => response.ok ? response.text() : null)
+        .then(text => {
+            const defaultAbout = `<p>Welcome to The Tabloid Times, where truth meets satire and reality takes a coffee break!</p>
+<p>We are an AI-powered satirical news site that transforms real headlines into gloriously absurd stories.</p>
+<p><strong>Disclaimer:</strong> Nothing here is real news. It's all satire, parody, and AI-generated silliness.</p>`;
+            document.getElementById('aboutEditor').value = text || defaultAbout;
+        })
+        .catch(() => {
+            const defaultAbout = `<p>Welcome to The Tabloid Times, where truth meets satire and reality takes a coffee break!</p>
+<p>We are an AI-powered satirical news site that transforms real headlines into gloriously absurd stories.</p>
+<p><strong>Disclaimer:</strong> Nothing here is real news. It's all satire, parody, and AI-generated silliness.</p>`;
+            document.getElementById('aboutEditor').value = defaultAbout;
+        });
 }
 
 function saveAboutPage() {
     const content = document.getElementById('aboutEditor').value;
-    localStorage.setItem(ABOUT_KEY, content);
+    
+    // Create a file blob
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    
+    // Trigger download so user can save it
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'about_custom.txt';
+    a.click();
+    
+    // Show instructions
+    document.getElementById('aboutSuccess').innerHTML = 'File downloaded! Upload "about_custom.txt" to your GitHub repo root, then run the workflow to update the live site.';
     document.getElementById('aboutSuccess').style.display = 'block';
+    
     setTimeout(() => {
         document.getElementById('aboutSuccess').style.display = 'none';
-    }, 3000);
+    }, 10000);
 }
 
 // Settings
