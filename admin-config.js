@@ -1,2 +1,2 @@
-// Auto-generated password hash - secure and safe to be public
-const ADMIN_PASSWORD_HASH = 'f92701309f78154d2a9abaafa525bab8a76ffd51f0a0c4f646f4e198231e3a70';
+const ADMIN_USERNAME_HASH='8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918';
+const ADMIN_PASSWORD_HASH='e130c546d4bffcfe093030a8e4250b14a864d719b9ff81989cb6652219f5c219';
