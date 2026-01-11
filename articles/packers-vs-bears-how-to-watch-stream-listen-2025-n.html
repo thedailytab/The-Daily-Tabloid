@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<title>PACKERS VS. BEARS | HOW TO WATCH, STREAM & LISTEN | 2025 NFC WILD CARD PLAYOFF - GREEN BAY PACKERS – PACKERS.COM - SHOCKING</title>
+<title>PACKERS VS. BEARS | HOW TO WATCH, STREAM & LISTEN | 2025 NFC WILD CARD PLAYOFF - GREEN BAY PACKERS – PACKERS.COM - EXCLUSIVE</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Georgia,serif;background:#f5f5f5;margin:0;padding:10px;font-size:16px}
@@ -21,6 +21,8 @@ p{line-height:1.7;margin:15px 0;font-size:1em;word-wrap:break-word}
 .comments h2{font-size:1.3em;margin-bottom:15px}
 .comment-form input,.comment-form textarea{width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:4px;font-family:Georgia,serif;font-size:1em}
 .comment-form button{background:#c00;color:#fff;padding:12px 24px;border:none;border-radius:4px;cursor:pointer;font-weight:bold;width:100%;font-size:1em}
+.login-prompt{background:#fff3cd;padding:15px;border-radius:8px;margin-bottom:20px;border-left:4px solid #ffc107}
+.login-prompt a{color:#c00;font-weight:bold;text-decoration:underline}
 .comment{background:#f9f9f9;padding:15px;margin:15px 0;border-radius:8px;border-left:4px solid #c00}
 .comment-author{font-weight:bold;color:#c00;margin-bottom:8px;font-size:1em}
 .comment-date{color:#666;font-size:0.85em;margin-bottom:8px}
@@ -43,13 +45,17 @@ p{font-size:1.15em}
 <body>
 <nav>
 <a href="../index.html" class="logo">The Tabloid Times</a>
+<div>
 <a href="../about.html">About</a>
 <a href="../contact.html">Contact</a>
+<a href="../login.html">Login</a>
 <a href="../admin.html">Admin</a>
+</div>
 </nav>
 <div class="main">
-<h1>PACKERS VS. BEARS | HOW TO WATCH, STREAM & LISTEN | 2025 NFC WILD CARD PLAYOFF - GREEN BAY PACKERS – PACKERS.COM - SHOCKING</h1>
-<p style="color:#666;font-size:0.9em">January 11, 2026 at 03:25 PM CST</p>
+<h1>PACKERS VS. BEARS | HOW TO WATCH, STREAM & LISTEN | 2025 NFC WILD CARD PLAYOFF - GREEN BAY PACKERS – PACKERS.COM - EXCLUSIVE</h1>
+<p style="color:#666;font-size:0.9em">January 11, 2026 at 03:35 PM CST</p>
+<p style="background:#f0f0f0;padding:15px;border-radius:8px;margin:20px 0"><strong>📰 Original Story:</strong> <a href="https://www.packers.com/news/packers-vs-bears-how-to-watch-stream-listen-nfc-wild-card-2025-playoff" target="_blank" style="color:#c00;text-decoration:underline">Read the actual news article here</a></p>
 <img src="https://static.clubs.nfl.com/image/upload/t_editorial_landscape_12_desktop/packers/fcv1sj8cfxzzatp8onqh" alt="Article Image" onerror="this.src='https://placehold.co/1200x600/FF6B6B/ffffff?text=Image+Unavailable'">
 <p>URGENT: Local reality has temporarily malfunctioned. Officials confirm that packers vs. bears | how to watch, stream & listen | 2025 nfc wild card playoff - green bay packers – packers.com which, according to physics, shouldn't even be possible.</p>
 <p>Dr. Gerald Fumblestick, who has never been right about anything, declared this "probably fine" while his lab coat was on fire.</p>
@@ -67,10 +73,11 @@ p{font-size:1.15em}
 </div>
 <div class="comments">
 <h2>Comments</h2>
-<div class="comment-form">
-<input type="text" id="commentName" placeholder="Your Name" required>
-<input type="email" id="commentEmail" placeholder="Your Email (won't be shown)" required>
-<textarea id="commentText" placeholder="Your thoughts on this ridiculous story..." rows="4" required></textarea>
+<div id="loginPrompt" class="login-prompt" style="display:none">
+Please <a href="../login.html">login</a> or <a href="../register.html">create an account</a> to comment.
+</div>
+<div class="comment-form" id="commentForm" style="display:none">
+<textarea id="commentText" placeholder="Share your thoughts..." rows="4" required></textarea>
 <button onclick="postComment()">Post Comment</button>
 </div>
 <div id="commentsList"></div>
@@ -80,6 +87,22 @@ p{font-size:1.15em}
 <script>
 const ARTICLE_ID = 'packers-vs-bears-how-to-watch-stream-listen-2025-n.html';
 const COMMENTS_KEY = 'comments_' + ARTICLE_ID;
+
+function getCurrentUser() {
+    const user = localStorage.getItem('current_user');
+    return user ? JSON.parse(user) : null;
+}
+
+function checkLoginStatus() {
+    const user = getCurrentUser();
+    if (user) {
+        document.getElementById('loginPrompt').style.display = 'none';
+        document.getElementById('commentForm').style.display = 'block';
+    } else {
+        document.getElementById('loginPrompt').style.display = 'block';
+        document.getElementById('commentForm').style.display = 'none';
+    }
+}
 
 function loadComments() {
     const comments = JSON.parse(localStorage.getItem(COMMENTS_KEY) || '[]');
@@ -92,7 +115,7 @@ function loadComments() {
     
     container.innerHTML = comments.map(c => `
         <div class="comment">
-            <div class="comment-author">${c.name}</div>
+            <div class="comment-author">${c.username}</div>
             <div class="comment-date">${c.date}</div>
             <div class="comment-text">${c.text}</div>
         </div>
@@ -100,31 +123,32 @@ function loadComments() {
 }
 
 function postComment() {
-    const name = document.getElementById('commentName').value.trim();
-    const email = document.getElementById('commentEmail').value.trim();
-    const text = document.getElementById('commentText').value.trim();
+    const user = getCurrentUser();
+    if (!user) {
+        alert('Please login to comment');
+        window.location.href = '../login.html';
+        return;
+    }
     
-    if (!name || !email || !text) {
-        alert('Please fill in all fields!');
+    const text = document.getElementById('commentText').value.trim();
+    if (!text) {
+        alert('Please enter a comment!');
         return;
     }
     
     const comments = JSON.parse(localStorage.getItem(COMMENTS_KEY) || '[]');
     comments.unshift({
-        name: name,
+        username: user.username,
         text: text,
         date: new Date().toLocaleString('en-US', {timeZone: 'America/Chicago'})
     });
     
     localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments));
-    
-    document.getElementById('commentName').value = '';
-    document.getElementById('commentEmail').value = '';
     document.getElementById('commentText').value = '';
-    
     loadComments();
 }
 
+checkLoginStatus();
 loadComments();
 </script>
 </body>
