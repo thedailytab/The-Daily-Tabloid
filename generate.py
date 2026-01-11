@@ -136,27 +136,42 @@ def make_article(headline):
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>{title}</title>
 <style>
-body{{font-family:Georgia,serif;background:#f5f5f5;margin:0;padding:20px}}
-nav{{background:#333;padding:15px;margin-bottom:20px}}
-nav a{{color:#fff;text-decoration:none;padding:10px 15px}}
-.logo{{color:#c00;font-weight:bold}}
-.main{{max-width:800px;margin:0 auto;background:#fff;padding:40px}}
-h1{{color:#c00;font-size:2em;line-height:1.3}}
-img{{width:100%;margin:20px 0;border-radius:8px}}
-p{{line-height:1.9;margin:20px 0;font-size:1.15em}}
-.share{{margin:40px 0;text-align:center;padding:30px;background:#f9f9f9;border-radius:8px}}
-.btn{{display:inline-block;padding:12px 24px;margin:5px;background:#1DA1F2;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold}}
-.comments{{margin:40px 0;padding:30px;background:#fff;border-top:3px solid #c00}}
-.comment-form{{margin-bottom:30px}}
-.comment-form input,.comment-form textarea{{width:100%;padding:12px;margin:8px 0;border:1px solid #ddd;border-radius:4px;font-family:Georgia,serif}}
-.comment-form button{{background:#c00;color:#fff;padding:12px 30px;border:none;border-radius:4px;cursor:pointer;font-weight:bold}}
-.comment{{background:#f9f9f9;padding:20px;margin:15px 0;border-radius:8px;border-left:4px solid #c00}}
-.comment-author{{font-weight:bold;color:#c00;margin-bottom:8px}}
-.comment-date{{color:#666;font-size:0.85em;margin-bottom:10px}}
-.comment-text{{line-height:1.6}}
-.no-comments{{text-align:center;color:#666;padding:40px;font-style:italic}}
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{font-family:Georgia,serif;background:#f5f5f5;margin:0;padding:10px;font-size:16px}}
+nav{{background:#333;padding:10px;margin-bottom:15px;border-radius:8px}}
+nav a{{color:#fff;text-decoration:none;padding:8px 12px;font-size:0.9em;display:inline-block}}
+.logo{{color:#c00;font-weight:bold;display:block;margin-bottom:8px}}
+.main{{max-width:800px;margin:0 auto;background:#fff;padding:20px;border-radius:8px}}
+h1{{color:#c00;font-size:1.5em;line-height:1.3;word-wrap:break-word}}
+img{{width:100%;height:auto;margin:15px 0;border-radius:8px;display:block}}
+p{{line-height:1.7;margin:15px 0;font-size:1em;word-wrap:break-word}}
+.share{{margin:30px 0;text-align:center;padding:20px;background:#f9f9f9;border-radius:8px}}
+.share h3{{font-size:1.2em;margin-bottom:15px}}
+.btn{{display:inline-block;padding:10px 16px;margin:5px;background:#1DA1F2;color:#fff;text-decoration:none;border-radius:5px;font-weight:bold;font-size:0.9em}}
+.comments{{margin:30px 0;padding:20px;background:#fff;border-top:3px solid #c00}}
+.comments h2{{font-size:1.3em;margin-bottom:15px}}
+.comment-form input,.comment-form textarea{{width:100%;padding:10px;margin:8px 0;border:1px solid #ddd;border-radius:4px;font-family:Georgia,serif;font-size:1em}}
+.comment-form button{{background:#c00;color:#fff;padding:12px 24px;border:none;border-radius:4px;cursor:pointer;font-weight:bold;width:100%;font-size:1em}}
+.comment{{background:#f9f9f9;padding:15px;margin:15px 0;border-radius:8px;border-left:4px solid #c00}}
+.comment-author{{font-weight:bold;color:#c00;margin-bottom:8px;font-size:1em}}
+.comment-date{{color:#666;font-size:0.85em;margin-bottom:8px}}
+.comment-text{{line-height:1.6;word-wrap:break-word;font-size:0.95em}}
+.no-comments{{text-align:center;color:#666;padding:30px;font-style:italic}}
+@media (min-width: 768px){{
+body{{padding:20px;font-size:18px}}
+nav{{padding:15px}}
+nav a{{font-size:1em;padding:10px 15px}}
+.logo{{display:inline-block;margin-bottom:0}}
+.main{{padding:40px}}
+h1{{font-size:2em}}
+p{{font-size:1.15em}}
+.share h3{{font-size:1.4em}}
+.btn{{padding:12px 24px;font-size:1em}}
+.comment-form button{{width:auto}}
+}}
 </style>
 </head>
 <body>
@@ -168,17 +183,17 @@ p{{line-height:1.9;margin:20px 0;font-size:1.15em}}
 </nav>
 <div class="main">
 <h1>{title}</h1>
-<p style="color:#666">{date}</p>
+<p style="color:#666;font-size:0.9em">{date}</p>
 <img src="{img}" alt="Article Image" onerror="this.src='https://placehold.co/1200x600/FF6B6B/ffffff?text=Image+Unavailable'">
 {content}
 <div class="share">
-<h3 style="margin-bottom:20px">Share This Insanity</h3>
-<a href="https://twitter.com/intent/tweet?text={share_title}&url={url}" class="btn">Share on X</a>
+<h3>Share This Insanity</h3>
+<a href="https://twitter.com/intent/tweet?text={share_title}&url={url}" class="btn">X</a>
 <a href="https://facebook.com/sharer/sharer.php?u={url}" class="btn" style="background:#1877F2">Facebook</a>
 <a href="https://reddit.com/submit?url={url}&title={share_title}" class="btn" style="background:#FF4500">Reddit</a>
 </div>
 <div class="comments">
-<h2 style="color:#c00;margin-bottom:20px">Comments</h2>
+<h2>Comments</h2>
 <div class="comment-form">
 <input type="text" id="commentName" placeholder="Your Name" required>
 <input type="email" id="commentEmail" placeholder="Your Email (won't be shown)" required>
@@ -187,7 +202,7 @@ p{{line-height:1.9;margin:20px 0;font-size:1.15em}}
 </div>
 <div id="commentsList"></div>
 </div>
-<p style="text-align:center"><a href="../index.html" style="color:#c00;font-weight:bold">← Back to More Absurdity</a></p>
+<p style="text-align:center;margin-top:30px"><a href="../index.html" style="color:#c00;font-weight:bold;text-decoration:none">← Back</a></p>
 </div>
 <script>
 const ARTICLE_ID = '{slug}';
@@ -198,7 +213,7 @@ function loadComments() {{
     const container = document.getElementById('commentsList');
     
     if (comments.length === 0) {{
-        container.innerHTML = '<div class="no-comments">No comments yet. Be the first to share your thoughts!</div>';
+        container.innerHTML = '<div class="no-comments">No comments yet. Be the first!</div>';
         return;
     }}
     
@@ -255,20 +270,39 @@ def make_homepage(articles):
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>The Tabloid Times</title>
 <style>
-body{{font-family:Georgia,serif;background:#f5f5f5;margin:0}}
-nav{{background:#333;padding:15px}}
-nav a{{color:#fff;text-decoration:none;padding:10px 15px}}
-.logo{{color:#c00;font-weight:bold}}
-header{{background:#c00;color:#fff;padding:40px;text-align:center}}
-h1{{font-size:3em;text-transform:uppercase}}
-.main{{max-width:1000px;margin:0 auto;padding:20px}}
-.story{{background:#fff;margin:20px 0;padding:20px}}
-.story img{{width:100%;height:250px;object-fit:cover}}
-.story h2{{color:#c00;margin:15px 0}}
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{font-family:Georgia,serif;background:#f5f5f5;margin:0;font-size:16px}}
+nav{{background:#333;padding:10px}}
+nav a{{color:#fff;text-decoration:none;padding:8px 12px;font-size:0.9em;display:inline-block}}
+.logo{{color:#c00;font-weight:bold;display:block;margin-bottom:8px}}
+header{{background:#c00;color:#fff;padding:30px 15px;text-align:center}}
+h1{{font-size:2em;text-transform:uppercase;word-wrap:break-word}}
+.tagline{{font-size:1em;margin-top:8px}}
+.main{{max-width:1000px;margin:0 auto;padding:15px}}
+.updated{{text-align:center;color:#666;margin-bottom:20px;font-size:0.9em}}
+.story{{background:#fff;margin:15px 0;padding:15px;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.1)}}
+.story img{{width:100%;height:auto;object-fit:cover;border-radius:8px;margin-bottom:10px}}
+.story h2{{color:#c00;font-size:1.3em;margin:10px 0;word-wrap:break-word;line-height:1.3}}
 .story a{{color:#c00;text-decoration:none}}
-footer{{text-align:center;padding:40px;color:#666;border-top:3px solid #c00}}
+.story a:hover{{text-decoration:underline}}
+.date{{color:#666;font-size:0.85em;margin-top:8px}}
+footer{{text-align:center;padding:30px 15px;color:#666;border-top:3px solid #c00;margin-top:30px}}
+footer p{{margin:8px 0;font-size:0.9em}}
+@media (min-width: 768px){{
+nav{{padding:15px}}
+nav a{{font-size:1em;padding:10px 15px}}
+.logo{{display:inline-block;margin-bottom:0;margin-right:20px}}
+header{{padding:40px 20px}}
+h1{{font-size:3em}}
+.tagline{{font-size:1.2em}}
+.main{{padding:20px}}
+.story{{padding:20px}}
+.story img{{height:250px}}
+.story h2{{font-size:2em}}
+}}
 </style>
 </head>
 <body>
@@ -280,10 +314,10 @@ footer{{text-align:center;padding:40px;color:#666;border-top:3px solid #c00}}
 </nav>
 <header>
 <h1>The Tabloid Times</h1>
-<p>SHOCKING NEWS - EXCLUSIVE STORIES</p>
+<p class="tagline">SHOCKING NEWS - EXCLUSIVE STORIES</p>
 </header>
 <div class="main">
-<p style="text-align:center;color:#666">Updated: {now}</p>
+<p class="updated">Updated: {now}</p>
 {items}
 </div>
 <footer>
@@ -300,21 +334,31 @@ def make_about():
         with open(custom_about_file, "r", encoding="utf-8") as f:
             custom_content = f.read()
     else:
-        custom_content = "AI-powered satirical news. Nothing is real!"
+        custom_content = "<p>AI-powered satirical news. Nothing is real!</p>"
     
     return f"""<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <title>About</title>
 <style>
-body{{font-family:Georgia,serif;background:#f5f5f5;margin:0}}
-nav{{background:#333;padding:15px}}
-nav a{{color:#fff;text-decoration:none;padding:10px 15px}}
-.logo{{color:#c00}}
-.main{{max-width:800px;margin:40px auto;background:#fff;padding:40px}}
-h1{{color:#c00}}
+*{{margin:0;padding:0;box-sizing:border-box}}
+body{{font-family:Georgia,serif;background:#f5f5f5;margin:0;font-size:16px}}
+nav{{background:#333;padding:10px}}
+nav a{{color:#fff;text-decoration:none;padding:8px 12px;font-size:0.9em;display:inline-block}}
+.logo{{color:#c00;font-weight:bold;display:block;margin-bottom:8px}}
+.main{{max-width:800px;margin:20px auto;background:#fff;padding:20px;border-radius:8px}}
+h1{{color:#c00;margin-bottom:15px;font-size:1.8em}}
+p{{line-height:1.7;margin:12px 0;word-wrap:break-word}}
+@media (min-width: 768px){{
+nav{{padding:15px}}
+nav a{{font-size:1em;padding:10px 15px}}
+.logo{{display:inline-block;margin-bottom:0}}
+.main{{margin:40px auto;padding:40px}}
+h1{{font-size:2.5em}}
 p{{line-height:1.8;margin:15px 0}}
+}}
 </style>
 </head>
 <body>
@@ -395,25 +439,4 @@ def main():
     
     for h in headlines:
         art = make_article(h)
-        new.append({"title": art["title"], "slug": art["slug"], "date": art["date"], "image": art["image"]})
-        with open(f"articles/{art['slug']}", "w") as f:
-            f.write(art["html"])
-        print(f"Created: {art['slug']}")
-    
-    all_articles = new + archive
-    save_archive(all_articles)
-    
-    with open("index.html", "w") as f:
-        f.write(make_homepage(all_articles))
-    with open("about.html", "w") as f:
-        f.write(make_about())
-    with open("contact.html", "w") as f:
-        f.write(make_contact())
-    with open("admin-config.js", "w") as f:
-        f.write(make_config())
-    
-    print(f"Done! {len(new)} new, {len(all_articles)} total")
-    return 0
-
-if __name__ == "__main__":
-    sys.exit(main())
+        new.append({"title": art["title"], "slug": art["slug"], "date": art["date"], "image": art[
