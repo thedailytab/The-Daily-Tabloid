@@ -27,6 +27,7 @@ a:hover{text-decoration:underline}
 <a href="index.html" class="logo">The Tabloid Times</a>
 <a href="about.html">About</a>
 <a href="contact.html">Contact</a>
+<a href="login.html">Login</a>
 <a href="admin.html">Admin</a>
 </nav>
 <div class="container">
@@ -35,6 +36,38 @@ a:hover{text-decoration:underline}
 <input type="text" id="username" placeholder="Username" required>
 <input type="password" id="password" placeholder="Password" required>
 <button type="submit">Login</button>
+</form>
+<div class="error" id="error">Invalid username or password</div>
+<div class="success" id="success">Login successful! Redirecting...</div>
+<p>Don't have an account? <a href="register.html">Register here</a></p>
+</div>
+<script>
+// Check if already logged in
+const currentUser = localStorage.getItem('current_user');
+if (currentUser) {
+    window.location.href = 'user.html';
+}
+
+document.getElementById('loginForm').onsubmit = function(e) {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    
+    const users = JSON.parse(localStorage.getItem('users') || '{}');
+    
+    if (users[username] && users[username].password === password) {
+        localStorage.setItem('current_user', JSON.stringify({username: username}));
+        document.getElementById('success').style.display = 'block';
+        document.getElementById('error').style.display = 'none';
+        setTimeout(() => window.location.href = 'user.html', 1000);
+    } else {
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('success').style.display = 'none';
+    }
+};
+</script>
+</body>
+</html><button type="submit">Login</button>
 </form>
 <div class="error" id="error">Invalid username or password</div>
 <div class="success" id="success">Login successful! Redirecting...</div>
